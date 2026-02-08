@@ -16,11 +16,15 @@
   padding: 0;
   box-sizing: border-box;
 }
+html{
+  overflow-x: hidden;
+  overflow-y: auto;
+}
 body{
   font-family: "Plus Jakarta Sans", sans-serif;
   font-weight: 400;
   color: #627384;
-  overflow-x: hidden;
+  overflow-x: hidden !important;
 }
 ul,ol{
   margin: 0;
@@ -37,61 +41,46 @@ h1,h2,h3,h4,h5,h6,p{
 
 .heading1{
   font-weight: 700;
-  font-style: Bold;
   font-size: 60px;
   line-height: 60px;
-  letter-spacing: 0%;
-  vertical-align: middle;
   color: #1D2630;
 }
 .heading2{
   font-weight: 700;
-  font-style: Bold;
   font-size: 36px;
   line-height: 40px;
-  letter-spacing: 0%;
   text-align: center;
-  vertical-align: middle;
+  color: #1D2630;
 }
 .heading3{
   font-weight: 700;
-  font-style: Bold;
   font-size: 30px;
   line-height: 36px;
-  letter-spacing: 0%;
-  vertical-align: middle;
+  color: #1D2630;
 }
 .heading4{
   font-weight: 700;
-  font-style: Bold;
   font-size: 18px;
   line-height: 28px;
-  letter-spacing: 0%;
-  vertical-align: middle;
+  color: #1d2630;
 }
 .font16_bold{
-  font-weight: 700;
-  font-style: Bold;
+  font-weight: 500;
   font-size: 16px;
   line-height: 24px;
-  letter-spacing: 0%;
-  vertical-align: middle;
 }
 .font16{
   font-weight: 400;
-  font-style: Regular;
   font-size: 16px;
   line-height: 26px;
-  letter-spacing: 0%;
-  vertical-align: middle;
 }
 .font14{
   font-weight: 400;
-  font-style: Regular;
   font-size: 14px;
   line-height: 20px;
-  letter-spacing: 0%;
-  vertical-align: middle;
+}
+.text-dark{
+  color: #1d2630;
 }
 a{
   text-decoration: none;
@@ -106,6 +95,13 @@ img{
   width: 100%;
   margin: auto;
 }
+.section-padding{
+  padding: 64px 0px;
+}
+.btn:focus:not(:focus-visible) {
+  box-shadow: none;
+}
+
 /* ===================================================================
                             Header Area CSS Start
 ====================================================================*/
@@ -134,11 +130,8 @@ img{
 }
 .header-nav nav ul li a{
   font-weight: 500;
-  font-style: Medium;
   font-size: 16px;
   line-height: 24px;
-  letter-spacing: 0%;
-  vertical-align: middle;
   color: #627384;
 }
 .header-button{
@@ -157,12 +150,10 @@ img{
   color: #FFF !important;
   border-radius: 12px;
   font-weight: 500;
-  font-style: Medium;
   font-size: 14px;
   line-height: 20px;
-  letter-spacing: 0%;
   text-align: center;
-  vertical-align: middle;
+  white-space: nowrap;
 }
 .custom_btn:hover{
   color: #FFF;
@@ -175,26 +166,24 @@ img{
 .mobile-headerbtn{
   display: none;
 }
-.tele img{
-  height: 16px;
-  width: 16px;
-}
 .tele{
   display: flex;
   align-items: center;
   gap: 8px;
   font-weight: 500;
-  font-style: Medium;
   font-size: 14px;
   line-height: 20px;
-  letter-spacing: 0%;
-  vertical-align: middle;
   color: #627384;
   transition: 0.3s;
+  white-space: nowrap;
 }
 .tele:hover{
   color: #000000d5;
 }
+.tele:hover svg{
+  fill: #000000d5;
+}
+
 /*Start Mobile Menu icon*/
 .mobile-menu {
 	position: absolute;
@@ -273,11 +262,8 @@ img{
 };
 .font20{
   font-weight: 400;
-  font-style: Regular;
   font-size: 20px;
   line-height: 28px;
-  letter-spacing: 0%;
-  vertical-align: middle;
   color: #627384;
 }
 .banner-alert{
@@ -289,11 +275,8 @@ img{
   border-radius: 9999px;
   background: #E7F9ED;
   font-weight: 500;
-  font-style: Medium;
   font-size: 14px;
   line-height: 20px;
-  letter-spacing: 0%;
-  vertical-align: middle;
   color: #22C35D;
 }
 .banner-alert img{
@@ -321,7 +304,6 @@ img{
   font-size: 14px;
   line-height: 20px;
   justify-content: center;
-  vertical-align: middle;
   padding: 16px 20px;
   padding-left: 35px;
   color: #000;
@@ -338,7 +320,6 @@ img{
   font-size: 14px;
   line-height: 20px;
   justify-content: center;
-  vertical-align: middle;
   gap: 16px;
   padding: 16px 20px;
   border-radius: 12px;
@@ -377,14 +358,16 @@ img{
   border-radius: 12px;
   border: 1px solid #1ABC9C;
   font-weight: 700;
-  font-style: Bold;
   font-size: 16px;
   line-height: 24px;
   text-align: center;
-  vertical-align: middle;
   background: transparent;
   color: #1ABC9C;
   white-space: nowrap;
+  transition: 0.3s;
+}
+.btn-outline:hover{
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
 .btn-outline img{
   height: 16px;
@@ -397,6 +380,7 @@ img{
 .analysis-content{
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
 }
 
 .banner-img{
@@ -421,10 +405,8 @@ img{
   background: #0DA2E7;
   color: #FFF;
   font-weight: 700;
-  font-style: Bold;
   font-size: 14px;
   line-height: 20px;
-  vertical-align: middle;
   position: absolute;
   right: 0;
   top: -15px;
@@ -432,3 +414,733 @@ img{
 .banner-img img{
   border-radius: 30px;
 }
+
+
+/* ===================================================================
+                            Booking Area CSS Start
+====================================================================*/
+.booking-area{
+  background: linear-gradient(180deg, rgba(243, 245, 247, 0.3) 0%, #fff 100%);
+}
+.top-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  max-width: 936px;
+  margin: auto;
+}
+.line {
+  flex: 1;               
+  height: 1px;
+}
+.line.left {
+  background: linear-gradient(90deg, #E0E6EB00 0%, #E0E6EB 50%, #E0E6EB 100%);
+}
+
+.line.right {
+  background: linear-gradient(270deg, #E0E6EB00 0%, #E0E6EB 50%,#E0E6EB 100%);
+}
+.top-title {
+  padding: 8px 24px;
+  background: rgba(13, 162, 231, 0.1);
+  color: #0da2e7;
+  font-weight: 700;
+  font-size: 14px;
+  border-radius: 20px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  white-space: nowrap; 
+}
+
+.section-title{
+  max-width: 713px;
+  width: 100%;
+  margin: auto;
+}
+.font18px{
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 28px;
+}
+.nice-select{
+  color: #1D2630;
+  font-weight: 500;
+}
+/* remove dropdown arrow */
+.filter-select .nice-select::after {
+    display: none !important;
+}
+/* space for icon */
+.filter-select .nice-select .current {
+    padding-left: 18px;
+}
+.filter-select .nice-select{
+    padding-right: 15px;
+}
+/* left icon */
+.filter-select .nice-select .current::before {
+    content: "";
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 16px;
+    height: 16px;
+    background: url("../images/filter-icon.svg") no-repeat center;
+    background-size: contain;
+}
+
+.card{
+  box-shadow: 0 4px 20px -4px rgba(102, 128, 153, 0.12);
+}
+.doctor-card {
+  border-radius: 12px;
+}
+.doctor-card .font16_bold{
+  color: #0da2e7;
+}
+.doctor-img {
+  width: 112px;
+  height: 112px;
+  border-radius: 16px;
+  object-fit: cover;
+}
+.doctor-review-badge{
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 24px;
+  background: #E7F9ED;
+  color: #22C35D;
+}
+.doctor-review-badge .font14{
+  color: #627384 !important;
+}
+.btn-outline-primary-light{
+  padding: 2px 10px;
+  border-radius: 9999px;
+  border: 1px solid #0DA2E74D;
+  color: #0DA2E7;
+  transition: 0.3s;
+  background: #0DA2E70D;
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.btn-outline-primary-light:hover{
+  background: transparent;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  color: #0DA2E7;
+}
+.btn-outline-primary-light:focus{
+  box-shadow: none;
+  outline: none;
+}
+.btn-outline-primary-light img{
+  height: 20px;
+  width: 20px;
+}
+.badge.bg-success{
+  background: #22C35D !important;
+  padding: 2px 8px;
+  color: #FFF;
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 16px;
+  border-radius: 9999px;
+}
+.badge.bg-success img{
+  height: 12px;
+  width: 12px;
+}
+.doctor-card .font20{
+  font-weight: 700;
+  color: #1D2630;
+}
+.view-all-doctors{
+  margin-top: 44px;
+}
+.btn-outline-primary{
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 20px;
+  text-align: center;
+  padding: 11px 32px;
+  color: #0DA2E7;
+  border: 1px solid #0DA2E7;
+  border-radius: 12px;
+}
+.btn-outline-primary:hover{
+  background: #0DA2E7;
+  border: 1px solid #0DA2E7;
+}
+.doctor-card a.font14{
+  transition: 0.3s;
+}
+.doctor-card a.font14:hover{
+  color: #000;
+}
+.doctor-card a.font14:hover svg{
+  fill: #000;
+}
+/* ===================================================================
+                            Profile Area CSS Start
+====================================================================*/
+.profile-area{
+  background: #FFF;
+}
+.profile-area .heading4{
+  font-size: 24px;
+}
+.doctor-card .btn-outline{
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 143%;
+  text-align: center;
+  color: #1abc9c;
+  padding: 9px 15px;
+}
+.border-md-start{
+  border-left: 1px solid #e0e6eb !important;
+}
+.profile-area .btn-outline img{
+  width: 26px;
+  object-fit: cover;
+  margin-right: -10px;
+}
+.section-title {
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+.clinic-img {
+  width: 96px;
+  height: 96px;
+  border-radius: 10px;
+  object-fit: cover;
+}
+.time-slot {
+  padding: 8px 14px;
+  border-radius: 20px;
+  background: #eef5fb;
+  font-size: 14px;
+  cursor: pointer;
+}
+.time-slot.active {
+  background: rgba(13, 162, 231, 0.1);
+  color: #0da2e7;
+}
+.time-slot.disabled {
+  background: #f3f5f7;
+  color: #627384;
+  text-decoration: line-through;
+}
+.review-item {
+  display: flex;
+  gap: 12px;
+}
+.avatar {
+  width: 40px;
+  height: 40px;
+  min-width: 40px; 
+  border-radius: 50%;
+  background: rgba(13, 162, 231, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 150%;
+  text-align: center;
+  color: #0da2e7;
+  flex-shrink: 0; 
+}
+.stars {
+  color: #22c55e;
+  font-size: 14px;
+}
+.primary-bg-light{
+  box-shadow: 0 4px 20px -4px rgba(102, 128, 153, 0.12);
+  background: linear-gradient(164deg, rgba(13, 162, 231, 0.05) 0%, rgba(26, 188, 156, 0.05) 100%);
+}
+.service-badge {
+  background: #1abc9c;
+  color: #fff;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  border: 1px solid rgba(0, 0, 0, 0);
+  border-radius: 9999px;
+  font-weight: 700;
+}
+
+.btn-outline-secondary{
+  display: flex;
+  align-items: center;
+  background: #FFF;
+  padding: 10px 24px;
+  transition: 0.3s;
+  gap: 8px;
+  opacity: 1;
+  color: #1d2630 !important;
+  border-radius: 12px;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 20px;
+  text-align: center;
+  white-space: nowrap;
+}
+.btn-outline-secondary:hover{
+  color: #FFF !important;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  background: #0DA2E7;
+  border: 1px solid #0DA2E7;
+}
+.btn-outline-secondary:hover svg {
+  fill: #fff;
+  stroke: #fff;
+}
+.btn-outline-secondary:hover svg path {
+  stroke: #fff;
+}
+.clinic-card a.font14{
+  transition: 0.3s;
+}
+.clinic-card a.font14:hover{
+  color: #000;
+}
+
+/* ===================================================================
+                          Book Appointment Area CSS Start
+====================================================================*/
+.steps-wrapper {
+  max-width: 896px;
+  margin: auto;
+  position: relative;
+}
+.steps {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.steps::before {
+  content: "";
+  position: absolute;
+  top: 22px;
+  left: 40px;
+  right: 40px;
+  height: 2px;
+  background: #e9edf3;
+  z-index: 1;
+}
+.steps-progress {
+  position: absolute;
+  top: 22px;
+  left: 40px;
+  height: 2px;
+  width: 0%;
+  background: #1da1f2; 
+  z-index: 2;
+  transition: width 0.4s ease;
+}
+.step {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+}
+.step .icon-box {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #f3f6fb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.3s;
+}
+.step svg path {
+  stroke: #7a8ca3;
+  transition: 0.3s;
+}
+.step .step-title {
+  margin-top: 8px;
+}
+.step .step-title span {
+  font-size: 14px;
+  color: #7a8ca3;
+  font-weight: 500;
+}
+.step.active .icon-box {
+  background: #1da1f2;
+}
+
+.step.active svg path {
+  stroke: #fff;
+}
+
+.step.active .step-title span {
+  color: #1da1f2;
+  font-weight: 600;
+}
+
+.appointment-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 32px;
+  max-width: 896px;
+  margin: auto;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+}
+.step-content {
+  display: none;
+}
+.step-content.active {
+  display: block;
+}
+.step-content h6 {
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+.consult-box {
+  flex: 1;
+  border: 1px solid #e4e9f0;
+  border-radius: 12px;
+  padding: 16px;
+  cursor: pointer;
+  display: flex;
+  gap: 12px;
+  transition: 0.3s;
+  padding-left: 40px !important;
+}
+.consult-box.active {
+  border-color: #0da2e7;
+  background: rgba(13, 162, 231, 0.05);
+}
+.consult-box strong {
+  font-size: 14px;
+}
+.consult-box small {
+  font-size: 12px;
+  color: #7a8ca3;
+}
+.consult-box .fw-medium{
+  font-weight: 500;
+}
+.date-box {
+  min-width: 120px;
+  max-width: 160px;
+  width: 100%;
+  padding: 14px;
+  border: 1px solid #e4e9f0;
+  border-radius: 12px;
+  text-align: center;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.date-box strong {
+  font-size: 16px;
+}
+.date-box small {
+  font-size: 12px;
+  color: #22c55e;
+}
+.date-box.active {
+  border-color: #1da1f2;
+  background: #f2f9ff;
+}
+#nextBtn {
+  background: #8dd3f7;
+  border: none;
+  padding: 14px;
+  border-radius: 12px;
+  font-weight: 500;
+}
+#nextBtn:hover {
+  background: #1da1f2;
+}
+.appointment-card .form-check{
+  width: 100%;
+}
+.appointment-card .form-check .form-check-label {
+  width: calc(100% + 20px);
+  margin-left: -20px;
+}
+
+.form-check-input:checked {
+    background-color: #0DA2E7;
+    border-color: #0DA2E7;
+    box-shadow: none;
+}
+
+.date-box strong{
+  color: #1D2630;
+}
+.date-box .green{
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 133%;
+  text-align: center;
+  color: #22c35d;
+}
+.date-box .gray{
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 133%;
+  text-align: center;
+
+}
+
+/* ===================================================================
+                          Services Area CSS Start
+====================================================================*/
+.services-section {
+  background: linear-gradient(180deg, rgba(243, 245, 247, 0.3) 0%, #fff 100%);
+}
+.bg-success-light{
+  border-radius: 9999px;
+  padding: 8px 16px;
+  background: rgba(26, 188, 156, 0.1);
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 143%;
+  color: #1abc9c;
+}
+.rounded-16px{
+  border-radius: 16px !important;
+}
+.service-list {
+  padding-left: 0;
+  list-style: none;
+}
+.btn-success{
+  border-radius: 12px;
+  padding: 9px 32px;
+  background: #1abc9c;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 143%;
+  text-align: center;
+  color: #fff;
+  border: none;
+}
+.btn-success:hover{
+  background: #1abc9c;
+  color: #FFF;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+.btn-success:focus{
+    background: #1abc9c;
+}
+.service-card {
+  padding: 24px;
+  border-radius: 14px;
+  box-shadow: 0 4px 20px -4px rgba(102, 128, 153, 0.12);
+  background: #fff;
+}
+.service-card img{
+  height: 56px;
+  width: 56px;
+}
+.service-list{
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.service-list li{
+  display: flex;
+  gap: 12px;
+}
+
+/* ===================================================================
+                          Specialities Area CSS Start
+====================================================================*/
+.Specialities-card{
+  padding: 24px;
+  border-radius: 14px;
+  box-shadow: 0 4px 20px -4px rgba(102, 128, 153, 0.12);
+  background: #fff;
+  text-align: center;
+}
+.Specialities-card img{
+  height: 64px;
+  width: 64px;
+}
+.Specialities-card .text-primary{
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 133%;
+  color: #0da2e7;
+}
+
+
+/* ===================================================================
+                          About Area CSS Start
+====================================================================*/
+.about-section{
+  background: linear-gradient(180deg, #fff 0%, rgba(243, 245, 247, 0.3) 100%);
+}
+.stat-card {
+  background: #fff;
+  padding: 24px;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px -4px rgba(102, 128, 153, 0.12);
+}
+.stat-card img{
+  height: 56px;
+  width: 56px;
+}
+.about-img{
+  position: relative;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  border-radius: 24px;
+}
+.about-img::after{
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  background: #000;
+  opacity: 0.2;
+  border-radius: 24px;
+  z-index: 9;
+}
+.about-img img{
+  border-radius: 24px;
+}
+.about-left{
+  position: relative;
+}
+.about-left-content{
+  position: absolute;
+  left: 34px;
+  bottom: 24px;
+  z-index: 999;
+}
+.about-left-content .font20{
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 140%;
+  color: #fff;
+}
+.about-left-content .font14{
+  color: #fff;
+}
+.mission-content .heading3{
+  font-size: 24px;
+}
+.mission-list{
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+.mission-list img{
+  height: 48px;
+  width: 48px;
+  border-radius: 12px;
+}
+
+
+/* ===================================================================
+                          Contact Area CSS Start
+====================================================================*/
+
+.contact-form .form-control{
+  border: 1px solid #e0e6eb;
+  border-radius: 12px;
+  color: #000;
+  padding: 11px 15px !important;
+}
+.form-control:focus{
+  box-shadow: none;
+}
+.font20{
+  font-size: 20px;
+}
+.fw-medium{
+  font-weight: 500;
+}
+.info-box img{
+  border-radius: 16px;
+  width: 56px;
+  height: 56px;
+}
+.border-dashed{
+  border: 1px dashed rgba(13, 162, 231, 0.3);
+  border-radius: 16px;
+}
+
+/* ===================================================================
+                          Contact Area CSS Start
+====================================================================*/
+.footer-section {
+  background: linear-gradient(180deg, #1f2a34, #18222c);
+  padding: 64px 0 0;
+}
+.footer-logo{
+  max-width: 144px;
+}
+.footer-links{
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+}
+.footer-links a{
+  transition: 0.3s;
+  color: rgba(255, 255, 255, 0.7);
+}
+.pera-text{
+    color: rgba(255, 255, 255, 0.7);
+}
+.footer-links a:hover {
+  color: #ffffff;
+}
+.app-btn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: transparent;
+  padding: 6px 14px;
+  font-weight: 500;
+  font-size: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 12px;
+  padding: 8px 15px;
+  color: #FFF;
+  transition: 0.3s;
+}
+.app-btn:hover{
+  color: #FFF;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+.footer-bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  margin-top: 64px;
+  padding: 24px 0;
+}
+.footer-bottom p {
+  color: #90a4ae;
+  font-size: 13px;
+}
+.social-icons a {
+  width: 40px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  transition: 0.3s;
+}
+
+.social-icons a:hover {
+  background: #1fc8db;
+}
+
+

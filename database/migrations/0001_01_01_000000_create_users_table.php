@@ -14,7 +14,9 @@ return new class extends Migration {
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
-            $table->tinyInteger('role')->default(2);
+            $table->string('phone')->nullable();
+            $table->boolean('status')->default(1);
+            $table->tinyInteger('role')->default(2)->comment('0=Admin, 1=Doctor, 2=Patient');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();

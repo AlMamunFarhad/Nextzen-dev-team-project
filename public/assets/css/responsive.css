@@ -1,13 +1,13 @@
-@media all and (max-width: 1199px){
-	
-}
-
-@media all and (min-width: 992px){
+@media all and (min-width: 1200px){
 	.header-menu{
 		display: flex !important;
 	}
+	.header-nav nav{
+		display: flex !important;
+	}
 }
-@media all and (max-width: 991px){
+
+@media all and (max-width: 1199px){
 	/* Mobile menu ----------------------------*/
 	.header-button {
 		display: none;
@@ -21,6 +21,7 @@
 	.header-nav nav{
 		position: absolute;
 		width: calc(100% + 40px);
+		height: 100vh;
 		top: 102%;
 		left: -20px;
 		background: #fff;
@@ -37,15 +38,68 @@
 	.header-nav nav ul li{
 		margin-bottom: 30px;
 	}
+
+	/* banner css */
+	.heading1 {
+		font-size: 50px;
+	}
+	.heading2 {
+		font-size: 32px;
+	}
+	.heading3 {
+		font-size: 26px;
+	}
+}
+
+@media all and (max-width: 991px){
+	.heading1 {
+		font-size: 40px;
+		line-height: 45px;
+	}
+	.section-padding {
+		padding: 50px 0px;
+	}
+	/* Banner Area Css */
+	.banner-content{
+		grid-template-columns: repeat(1, 1fr);
+	}
+	.banner-form .form-row {
+		grid-template-columns: repeat(2, 1fr);
+	}
+	.banner-img img {
+		border-radius: 16px;
+	}
+	/* book appoinment css */
+	.date-box {
+		min-width: 100px;
+		max-width: 100px;
+	}
+}
+
+@media all and (max-width:767px){
+	.border-md-start{
+		border-left: none !important;
+		padding-left: 0px !important;
+	}
 }
 
 @media all and (max-width:575px){
-	
+	.banner-area {
+		padding: 60px 0px;
+	}
+	.section-padding {
+		padding: 40px 0px;
+	}
+	.footer-links {
+		gap: 8px;
+	}
 }
 
 
 @media all and (max-width:450px){
-
+	.analysis-content{
+		grid-template-columns: repeat(2, 1fr);
+	}
 }
 
 

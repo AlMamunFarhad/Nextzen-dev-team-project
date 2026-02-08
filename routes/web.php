@@ -1,8 +1,16 @@
 <?php
 
+require __DIR__ . '/auth.php';
+
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Doctors\AppointmentController;
+use App\Http\Controllers\Doctors\DoctorController;
+use App\Http\Controllers\Doctors\DoctorScheduleController;
+use App\Http\Controllers\Doctors\PatientController;
+use App\Http\Controllers\Doctors\TimeSlotController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\DashboardController;
+
 
 Route::get('/', function () {
     return view('index');
@@ -15,7 +23,14 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__ . '/auth.php';
+Route::middleware('auth')->group(function() {
+    Route::resource('doctors', DoctorController::class);
+    Route::resource('schedules', DoctorScheduleController::class);
+    Route::get('slots', [TimeSlotController::class, 'index']);
+    Route::resource('appointments', AppointmentController::class);
+    Route::resource('patients', PatientController::class);
+});
+
 
 Route::get('patient/dashboard', [DashboardController::class, 'userdashboard'])->middleware('auth', 'patient')->name('patient.dashboard');
 Route::get('doctor/dashboard', [DashboardController::class, 'sellerdashboard'])->middleware('auth', 'doctor')->name('doctor.dashboard');

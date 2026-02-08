@@ -33,9 +33,9 @@ class AuthenticatedSessionController extends Controller
         if($authUserRole == 0) {
             return redirect()->intended(route('admin.dashboard', absolute: false));
         } elseif($authUserRole == 1) {
-            return redirect()->intended(route('seller.dashboard', absolute: false));
+            return redirect()->intended(route('doctor.dashboard', absolute: false));
         } else {
-            return redirect()->intended(route('dashboard', absolute: false));
+            return redirect()->intended(route('patient.dashboard', absolute: false));
         }
         //End Authentication Role Permission
 

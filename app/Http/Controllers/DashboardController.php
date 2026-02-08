@@ -8,12 +8,12 @@ class DashboardController extends Controller
 {
     public function userdashboard()
     {
-        return view('dashboard');
+        return view('patient');
     }
 
     public function sellerdashboard()
     {
-        return view('seller');
+        return view('doctor');
     }
 
     public function admindashboard()

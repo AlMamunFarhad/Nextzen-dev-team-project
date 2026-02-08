@@ -28,8 +28,8 @@ class RoleManager
         // Define role mappings
         $roles = [
             'admin' => 0,
-            'patient' => 1,
-            'doctor' => 2,
+            'doctor' => 1,
+            'patient' => 2,
         ];
 
         // Check if the user's role matches the requested role
@@ -40,11 +40,11 @@ class RoleManager
         // Redirect based on the user's role
         switch ($authUserRole) {
             case 0:
-                return redirect()->route('admin');
+                return redirect()->route('admin.dashboard');
             case 1:
-                return redirect()->route('vendor');
+                return redirect()->route('doctor.dashboard');
             case 2:
-                return redirect()->route('dashboard');
+                return redirect()->route('patient.dashboard');
             default:
                 return redirect()->route('login');
         }

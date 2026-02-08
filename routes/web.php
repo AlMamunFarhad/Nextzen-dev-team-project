@@ -17,6 +17,6 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__ . '/auth.php';
 
-Route::get('user/dashboard', [DashboardController::class, 'userdashboard'])->middleware('auth', 'user')->name('dashboard');
-Route::get('seller/dashboard', [DashboardController::class, 'sellerdashboard'])->middleware('auth', 'seller')->name('seller.dashboard');
+Route::get('patient/dashboard', [DashboardController::class, 'userdashboard'])->middleware('auth', 'patient')->name('patient.dashboard');
+Route::get('doctor/dashboard', [DashboardController::class, 'sellerdashboard'])->middleware('auth', 'doctor')->name('doctor.dashboard');
 Route::get('admin/dashboard', [DashboardController::class, 'admindashboard'])->middleware('auth', 'admin')->name('admin.dashboard');

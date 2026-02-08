@@ -26,12 +26,12 @@ class RoleManagerMiddleware
                     return $next($request);
                 }
             break;
-            case 'vendor':
+            case 'doctor':
                 if($authUserRole == 1){
                     return $next($request);
                 }
             break;
-            case 'customer':
+            case 'patient':
                 if($authUserRole == 2){
                     return $next($request);
                 }
@@ -40,11 +40,11 @@ class RoleManagerMiddleware
 
         switch($authUserRole) {
             case 0:
-                return redirect()->route('admin');
+                return redirect()->route('admin.dashboard');
             case 1:
-                return redirect()->route('vendor');
+                return redirect()->route('doctor.dashboard');
             case 2:
-                return redirect()->route('dashboard');
+                return redirect()->route('patient.dashboard');
         }
         return redirect()->route('login');
     }

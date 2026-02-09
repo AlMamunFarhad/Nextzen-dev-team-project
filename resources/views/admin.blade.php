@@ -1,4 +1,16 @@
 <x-app-layout>
+    <!-- ===== Global Toast ===== -->
+    <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 1100">
+        <div id="globalToast" class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive"
+            aria-atomic="true">
+
+            <div class="d-flex">
+                <div class="toast-body" id="toastMessage"></div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+            </div>
+        </div>
+    </div>
+
     <!-- Layout wrapper -->
     <div class="layout-wrapper layout-content-navbar">
         <div class="layout-container">
@@ -78,6 +90,12 @@
                             <div data-i18n="Account Settings">Doctors</div>
                         </a>
                     </li>
+                    <li class="menu-item">
+                        <a href="{{ route('schedules.index') }}" class="menu-link">
+                            <i class="menu-icon tf-icons bx bx-dock-top"></i>
+                            <div data-i18n="Account Settings">Schedules</div>
+                        </a>
+                    </li>
                 </ul>
             </aside>
             <!-- / Menu -->
@@ -105,4 +123,3 @@
     </div>
     <!-- / Layout wrapper -->
 </x-app-layout>
-

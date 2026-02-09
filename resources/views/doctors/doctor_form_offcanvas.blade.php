@@ -4,20 +4,32 @@
             border: 1px solid #d9dee3;
         }
 
-        .offcanvas :focus {
+        .offcanvas *:focus {
             outline: none !important;
             box-shadow: none !important;
+        }
+
+        .invalid-feedback {
+            display: block;
+            color: #dc3545;
+            margin-top: .25rem;
+            font-size: .875rem;
+        }
+
+        .is-invalid {
+            box-shadow: none !important;
+            border-color: inherit !important;
+        }
+
+        .offcanvas-body {
+            overflow-y: auto;
+            padding-bottom: 1rem;
         }
     </style>
 @endpush
 
 <div class="col-lg-3 col-md-6 mb-3">
     <div class="mt-3">
-
-        {{-- <button class="btn btn-primary text-end" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasEnd"
-            aria-controls="offcanvasEnd" onclick="openDoctorForm(null)">
-            Add New Doctor
-        </button> --}}
         <button type="button" class="btn btn-primary" onclick="openDoctorForm(null)">
             Add New Doctor
         </button>
@@ -30,17 +42,17 @@
                     aria-label="Close"></button>
             </div>
 
-            <div class="offcanvas-body my-auto mx-0 flex-grow-0">
-
+            <div class="offcanvas-body">
                 <form action="{{ route('doctors.store') }}" method="POST" id="doctorForm">
                     @csrf
-
+                    <input type="hidden" name="doctor_id" id="doctor_id">
                     <div class="mb-3">
                         <label class="form-label" for="specialization">Specialization</label>
                         <div class="input-group input-group-merge">
                             <span class="input-group-text"><i class="bx bx-user"></i></span>
                             <input type="text" name="specialization" class="form-control" id="specialization"
                                 placeholder="Cardiology..." />
+                            <div class="invalid-feedback"></div>
                         </div>
                     </div>
 
@@ -50,6 +62,7 @@
                             <span class="input-group-text"><i class="bx bx-buildings"></i></span>
                             <input type="text" name="experience" id="experience" class="form-control"
                                 placeholder="5 yrs..." />
+                            <div class="invalid-feedback"></div>
                         </div>
                     </div>
 
@@ -60,6 +73,7 @@
                             <input type="number" name="fee" id="fee" class="form-control"
                                 placeholder="100..." />
                             <span class="input-group-text">$</span>
+                            <div class="invalid-feedback"></div>
                         </div>
                     </div>
 
@@ -69,87 +83,465 @@
                             <span class="input-group-text"><i class="bx bx-comment"></i></span>
                             <textarea name="bio" id="bio" class="form-control"
                                 placeholder="Briefly tell about your expertise and experience..."></textarea>
+                            <div class="invalid-feedback"></div>
                         </div>
                     </div>
 
-                    <button type="submit" class="btn btn-primary" id="doctorSubmitBtn">Save Profile</button>
+                    <div class="mb-3">
+                        <label class="form-label" for="status">Status</label>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" name="status" id="status" value="1" checked>
+                            <label class="form-check-label" for="status">Active</label>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" id="doctorSubmitBtn">
+                        Save Profile
+                    </button>
                 </form>
             </div>
         </div>
     </div>
 </div>
 
+<!-- Global Toast -->
+<div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 2000">
+    <div id="globalToast" class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive"
+        aria-atomic="true">
+        <div class="d-flex">
+            <div class="toast-body" id="toastMessage"></div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+        </div>
+    </div>
+</div>
+
 
 @push('scripts')
+<script>
+const form = document.getElementById('doctorForm');
+const submitBtn = document.getElementById('doctorSubmitBtn');
+const titleEl = document.getElementById('offcanvasEndLabel');
+const offcanvasEl = document.getElementById('offcanvasEnd');
+const storeUrl = "{{ route('doctors.store') }}";
+const baseDoctorsUrl = "{{ url('doctors') }}";
+
+const ORIGINAL_BTN_HTML = submitBtn.innerHTML;
+
+// ===============================
+// TOAST
+// ===============================
+function showToast(message, type = 'success') {
+    const toastEl = document.getElementById('globalToast');
+    const toastMsg = document.getElementById('toastMessage');
+
+    toastEl.classList.remove('text-bg-success', 'text-bg-danger', 'text-bg-warning', 'text-bg-info');
+    toastEl.classList.add(`text-bg-${type}`);
+    toastMsg.innerText = message;
+
+    new bootstrap.Toast(toastEl, { delay: 3000 }).show();
+}
+
+// ===============================
+// HELPERS: clear/show errors
+// ===============================
+function clearErrors() {
+    form.querySelectorAll('.invalid-feedback').forEach(el => el.innerText = '');
+    form.querySelectorAll('.is-invalid').forEach(el => el.classList.remove('is-invalid'));
+}
+
+function findFeedbackElementFor(input) {
+    const group = input.closest('.input-group') || input.parentElement;
+    if (!group) return null;
+    return group.querySelector('.invalid-feedback') || input.nextElementSibling;
+}
+
+function showErrors(errors) {
+    Object.keys(errors).forEach(field => {
+        const input = form.querySelector(`[name="${field}"]`);
+        if (!input) return;
+        const feedback = findFeedbackElementFor(input);
+        if (feedback) feedback.innerText = errors[field][0];
+    });
+}
+
+form.querySelectorAll('input, textarea').forEach(input => {
+    input.addEventListener('input', () => {
+        const fb = findFeedbackElementFor(input);
+        if (fb) fb.innerText = '';
+    });
+});
+
+// ===============================
+// OFFCANVAS RESET
+// ===============================
+offcanvasEl.addEventListener('hidden.bs.offcanvas', () => {
+    form.reset();
+    const method = form.querySelector('input[name="_method"]');
+    if (method) method.remove();
+
+    // remove doctor_id hidden if present
+    const did = form.querySelector('input[name="doctor_id"]');
+    if (did) did.value = '';
+
+    // ensure status fallback input removed (we'll add before submit)
+    const statusFallback = form.querySelector('input[name="status_hidden_fallback"]');
+    if (statusFallback) statusFallback.remove();
+
+    submitBtn.disabled = false;
+    submitBtn.innerHTML = ORIGINAL_BTN_HTML;
+
+    titleEl.innerText = 'Add New Doctor';
+    form.action = storeUrl;
+
+    document.querySelectorAll('.offcanvas-backdrop').forEach(el => el.remove());
+    document.body.classList.remove('modal-open');
+    document.body.style.overflow = '';
+    document.body.style.paddingRight = '';
+
+    clearErrors();
+});
+
+// ===============================
+// OPEN FORM (CREATE/EDIT)
+// ===============================
+function openDoctorForm(doctor = null) {
+    const offcanvas = bootstrap.Offcanvas.getOrCreateInstance(offcanvasEl);
+
+    form.reset();
+    clearErrors();
+
+    // remove old _method if any
+    const oldMethod = form.querySelector('input[name="_method"]');
+    if (oldMethod) oldMethod.remove();
+
+    if (doctor) {
+        // EDIT mode
+        titleEl.innerText = 'Edit Doctor Profile';
+        submitBtn.innerHTML = 'Update Profile';
+        form.action = `${baseDoctorsUrl}/${doctor.id}`;
+
+        // method spoofing for PUT
+        const methodInput = document.createElement('input');
+        methodInput.type = 'hidden';
+        methodInput.name = '_method';
+        methodInput.value = 'PUT';
+        form.appendChild(methodInput);
+
+        // set doctor_id hidden (optional)
+        const doctorIdInput = form.querySelector('input[name="doctor_id"]');
+        if (doctorIdInput) doctorIdInput.value = doctor.id;
+
+        // populate fields
+        form.querySelector('[name="specialization"]').value = doctor.specialization ?? '';
+        form.querySelector('[name="experience"]').value = doctor.experience ?? '';
+        form.querySelector('[name="fee"]').value = doctor.fee ?? '';
+        form.querySelector('[name="bio"]').value = doctor.bio ?? '';
+
+        // Populate status checkbox and label
+        const statusInput = form.querySelector('[name="status"]');
+        const statusLabel = form.querySelector('label[for="status"]');
+        if (statusInput) {
+            statusInput.checked = doctor.status ? true : false;
+            if (statusLabel) statusLabel.innerText = doctor.status ? 'Active' : 'Inactive';
+        }
+    } else {
+        // CREATE mode
+        titleEl.innerText = 'Add New Doctor';
+        submitBtn.innerHTML = ORIGINAL_BTN_HTML;
+        form.action = storeUrl;
+
+        const doctorIdInput = form.querySelector('input[name="doctor_id"]');
+        if (doctorIdInput) doctorIdInput.value = '';
+
+        const statusInput = form.querySelector('[name="status"]');
+        const statusLabel = form.querySelector('label[for="status"]');
+        if (statusInput) {
+            statusInput.checked = true; // default active
+            if (statusLabel) statusLabel.innerText = 'Active';
+        }
+    }
+
+    offcanvas.show();
+}
+
+// dynamic label update on toggle
+const statusCheckbox = form.querySelector('[name="status"]');
+if (statusCheckbox) {
+    statusCheckbox.addEventListener('change', function() {
+        const statusLabel = form.querySelector('label[for="status"]');
+        if (statusLabel) statusLabel.innerText = this.checked ? 'Active' : 'Inactive';
+    });
+}
+
+// ===============================
+// FETCH DOCTOR (for edit)
+// ===============================
+function fetchDoctor(id) {
+    fetch(`${baseDoctorsUrl}/${id}/edit`, {
+        headers: { 'Accept': 'application/json' }
+    })
+    .then(async res => {
+        const data = await res.json().catch(() => null);
+        if (!res.ok) throw data || { message: 'Failed to fetch' };
+        return data;
+    })
+    .then(doctorData => openDoctorForm(doctorData))
+    .catch(err => showToast(err?.message || 'Failed to load doctor', 'danger'));
+}
+
+// ===============================
+// CREATE/UPDATE AJAX
+// ===============================
+form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    clearErrors();
+
+    // Ensure a hidden fallback is present so unchecked checkbox still sends 0
+    // We'll name it 'status_hidden_fallback' so it doesn't conflict with actual 'status'
+    let fallback = form.querySelector('input[name="status_hidden_fallback"]');
+    if (!fallback) {
+        fallback = document.createElement('input');
+        fallback.type = 'hidden';
+        fallback.name = 'status_hidden_fallback';
+        form.appendChild(fallback);
+    }
+    // if checkbox exists, set fallback to 0 and, if checked, we'll send status=1 as well
+    const checkbox = form.querySelector('input[name="status"]');
+    if (checkbox) {
+        fallback.value = checkbox.checked ? '1' : '0';
+
+        let existingStatusHidden = form.querySelector('input[name="status_hidden_for_submit"]');
+        if (existingStatusHidden) existingStatusHidden.remove();
+
+        const statusHidden = document.createElement('input');
+        statusHidden.type = 'hidden';
+        statusHidden.name = 'status';
+        statusHidden.value = checkbox.checked ? '1' : '0';
+        statusHidden.setAttribute('data-generated', 'true');
+        statusHidden.classList.add('d-none');
+        statusHidden.name = 'status';
+        statusHidden.setAttribute('data-generated', '1');
+
+        form.appendChild(statusHidden);
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Saving...';
+
+    // Build FormData AFTER we updated/added default status hidden input
+    const payload = new FormData(form);
+
+    fetch(form.action, {
+        method: 'POST',
+        headers: {
+            'X-CSRF-TOKEN': form._token.value,
+            'Accept': 'application/json'
+        },
+        body: payload
+    })
+    .then(async res => {
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok) throw data;
+        return data;
+    })
+    .then(data => {
+        showToast(data.message || 'Saved', 'success');
+        bootstrap.Offcanvas.getInstance(offcanvasEl).hide();
+        location.reload();
+    })
+    .catch(err => {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = ORIGINAL_BTN_HTML;
+
+        if (err && err.errors) showErrors(err.errors);
+        else showToast(err.message || 'Something went wrong!', 'danger');
+    });
+});
+
+// ===============================
+// DELETE - single implementation (use confirm or SweetAlert)
+// ===============================
+function deleteDoctor(id) {
+    if (!confirm('Are you sure?')) return;
+
+    fetch(`${baseDoctorsUrl}/${id}`, {
+        method: 'DELETE',
+        headers: {
+            'X-CSRF-TOKEN': form._token.value,
+            'Accept': 'application/json'
+        }
+    })
+    .then(async res => {
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok) throw data;
+        return data;
+    })
+    .then(data => {
+        showToast(data.message || 'Deleted', 'danger');
+        document.getElementById(`doctorRow${id}`)?.remove();
+    })
+    .catch(() => showToast('Delete failed!', 'danger'));
+}
+</script>
+@endpush
+
+
+
+
+
+
+
+
+
+
+
+
+{{-- @push('scripts')
     <script>
-        // Ensure offcanvas always starts clean
-        document.addEventListener('DOMContentLoaded', function() {
-            const offcanvasEl = document.getElementById('offcanvasEnd');
-
-            // When offcanvas hides, reset form and remove _method
-            offcanvasEl.addEventListener('hidden.bs.offcanvas', function() {
-                try {
-                    form.reset();
-                    const oldMethod = form.querySelector('input[name="_method"]');
-                    if (oldMethod) oldMethod.remove();
-                    // reset submit button text/state
-                    submitBtn.disabled = false;
-                    submitBtn.innerText = originalText;
-                    titleEl.innerText = 'Add New Doctor';
-                    form.action = storeUrl;
-                } catch (e) {
-                    console.warn(e);
-                }
-            });
-        });
-
-
-        const storeUrl = "{{ route('doctors.store') }}"; // create
-        const baseDoctorsUrl = "{{ url('doctors') }}"; // update -> /doctors/{id}
-
         const form = document.getElementById('doctorForm');
         const submitBtn = document.getElementById('doctorSubmitBtn');
         const titleEl = document.getElementById('offcanvasEndLabel');
-        let originalText = submitBtn?.innerText ?? 'Save Profile';
+        const offcanvasEl = document.getElementById('offcanvasEnd');
+        const storeUrl = "{{ route('doctors.store') }}";
+        const baseDoctorsUrl = "{{ url('doctors') }}";
 
-        /* openDoctorForm: create (null) / edit (doctor object) */
+        const ORIGINAL_BTN_HTML = submitBtn.innerHTML;
+
+        // ===============================
+        // TOAST
+        // ===============================
+        function showToast(message, type = 'success') {
+            const toastEl = document.getElementById('globalToast');
+            const toastMsg = document.getElementById('toastMessage');
+
+            toastEl.classList.remove('text-bg-success', 'text-bg-danger', 'text-bg-warning', 'text-bg-info');
+            toastEl.classList.add(`text-bg-${type}`);
+            toastMsg.innerText = message;
+
+            new bootstrap.Toast(toastEl, {
+                delay: 3000
+            }).show();
+        }
+
+        // ===============================
+        // HELPERS: clear/show errors
+        // ===============================
+        function clearErrors() {
+            form.querySelectorAll('.invalid-feedback').forEach(el => el.innerText = '');
+            form.querySelectorAll('.is-invalid').forEach(el => el.classList.remove('is-invalid'));
+        }
+
+        function findFeedbackElementFor(input) {
+            const group = input.closest('.input-group') || input.parentElement;
+            if (!group) return null;
+            return group.querySelector('.invalid-feedback') || input.nextElementSibling;
+        }
+
+        function showErrors(errors) {
+            Object.keys(errors).forEach(field => {
+                const input = form.querySelector(`[name="${field}"]`);
+                if (!input) return;
+                const feedback = findFeedbackElementFor(input);
+                if (feedback) feedback.innerText = errors[field][0];
+            });
+        }
+
+        form.querySelectorAll('input, textarea').forEach(input => {
+            input.addEventListener('input', () => {
+                const fb = findFeedbackElementFor(input);
+                if (fb) fb.innerText = '';
+            });
+        });
+
+        // ===============================
+        // OFFCANVAS RESET
+        // ===============================
+        offcanvasEl.addEventListener('hidden.bs.offcanvas', () => {
+            form.reset();
+            const method = form.querySelector('input[name="_method"]');
+            if (method) method.remove();
+
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = ORIGINAL_BTN_HTML;
+
+            titleEl.innerText = 'Add New Doctor';
+            form.action = storeUrl;
+
+            document.querySelectorAll('.offcanvas-backdrop').forEach(el => el.remove());
+            document.body.classList.remove('modal-open');
+            document.body.style.overflow = '';
+            document.body.style.paddingRight = '';
+
+            clearErrors();
+        });
+
+        // ===============================
+        // OPEN FORM (CREATE/EDIT)
+        // ===============================
         function openDoctorForm(doctor = null) {
-            const offcanvasEl = document.getElementById('offcanvasEnd');
-            const offcanvas = new bootstrap.Offcanvas(offcanvasEl);
+            const offcanvas = bootstrap.Offcanvas.getOrCreateInstance(offcanvasEl);
 
             form.reset();
-            // remove old _method if present
+            clearErrors();
             const oldMethod = form.querySelector('input[name="_method"]');
             if (oldMethod) oldMethod.remove();
 
-            // default CREATE
-            titleEl.innerText = 'Add New Doctor';
-            submitBtn.innerText = 'Save Profile';
-            form.action = storeUrl;
-
             if (doctor) {
-                // EDIT
-                titleEl.innerText = 'Edit Doctor Profile';
-                submitBtn.innerText = 'Update Profile';
-                form.action = `${baseDoctorsUrl}/${doctor.id}`;
-
-                const methodInput = document.createElement('input');
-                methodInput.type = 'hidden';
-                methodInput.name = '_method';
-                methodInput.value = 'PUT';
-                form.appendChild(methodInput);
-
-                // populate fields (ensure name attributes match)
+                // Existing populate fields
                 form.querySelector('[name="specialization"]').value = doctor.specialization ?? '';
                 form.querySelector('[name="experience"]').value = doctor.experience ?? '';
                 form.querySelector('[name="fee"]').value = doctor.fee ?? '';
                 form.querySelector('[name="bio"]').value = doctor.bio ?? '';
+
+                // Populate status
+                const statusInput = form.querySelector('[name="status"]');
+                if (statusInput) {
+                    statusInput.checked = doctor.status ? true : false;
+                    statusInput.nextElementSibling.innerText = doctor.status ? 'Active' : 'Inactive';
+                }
+
+            } else {
+                // New form defaults
+                const statusInput = form.querySelector('[name="status"]');
+                if (statusInput) {
+                    statusInput.checked = true; // default active
+                    statusInput.nextElementSibling.innerText = 'Active';
+                }
             }
+
+
+            // if (doctor) {
+            //     titleEl.innerText = 'Edit Doctor Profile';
+            //     submitBtn.innerHTML = 'Update Profile';
+            //     form.action = `${baseDoctorsUrl}/${doctor.id}`;
+
+            //     const methodInput = document.createElement('input');
+            //     methodInput.type = 'hidden';
+            //     methodInput.name = '_method';
+            //     methodInput.value = 'PUT';
+            //     form.appendChild(methodInput);
+
+            //     form.querySelector('[name="specialization"]').value = doctor.specialization ?? '';
+            //     form.querySelector('[name="experience"]').value = doctor.experience ?? '';
+            //     form.querySelector('[name="fee"]').value = doctor.fee ?? '';
+            //     form.querySelector('[name="bio"]').value = doctor.bio ?? '';
+            // } else {
+            //     titleEl.innerText = 'Add New Doctor';
+            //     submitBtn.innerHTML = ORIGINAL_BTN_HTML;
+            //     form.action = storeUrl;
+            // }
 
             offcanvas.show();
         }
 
-        /* fetchDoctor: call controller and open form with data */
+        const statusCheckbox = form.querySelector('[name="status"]');
+        if (statusCheckbox) {
+            statusCheckbox.addEventListener('change', function() {
+                this.nextElementSibling.innerText = this.checked ? 'Active' : 'Inactive';
+            });
+        }
+
+
         function fetchDoctor(id) {
             fetch(`${baseDoctorsUrl}/${id}/edit`, {
                     headers: {
@@ -157,41 +549,39 @@
                     }
                 })
                 .then(async res => {
-                    if (!res.ok) {
-                        const err = await res.json().catch(() => ({
-                            message: 'Failed to fetch'
-                        }));
-                        throw err;
-                    }
-                    return res.json();
+                    const data = await res.json().catch(() => null);
+                    if (!res.ok) throw data || {
+                        message: 'Failed to fetch'
+                    };
+                    return data;
                 })
-                .then(doctor => {
-                    openDoctorForm(doctor);
+                .then(doctorData => {
+                    // Ensure doctorData has the correct fields expected in openDoctorForm
+                    openDoctorForm(doctorData);
                 })
                 .catch(err => {
-                    console.error(err);
-                    alert(err.message ?? 'Could not load doctor data.');
+                    showToast(err?.message || 'Failed to load doctor', 'danger');
                 });
         }
 
-        /* Form submit handler (works for create and update using _method override) */
+        // ===============================
+        // CREATE/UPDATE AJAX
+        // ===============================
         form.addEventListener('submit', function(e) {
             e.preventDefault();
-            const methodInput = form.querySelector('input[name="_method"]');
-            const method = methodInput ? methodInput.value : 'POST';
-            const action = form.action;
-            const formData = new FormData(form);
+            clearErrors();
 
             submitBtn.disabled = true;
-            submitBtn.innerText = method === 'PUT' ? 'Updating...' : 'Saving...';
+            submitBtn.innerHTML =
+                '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Saving...';
 
-            fetch(action, {
-                    method: 'POST', // Laravel expects POST + _method override
+            fetch(form.action, {
+                    method: 'POST',
                     headers: {
-                        'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').value,
+                        'X-CSRF-TOKEN': form._token.value,
                         'Accept': 'application/json'
                     },
-                    body: formData
+                    body: new FormData(form)
                 })
                 .then(async res => {
                     const data = await res.json().catch(() => ({}));
@@ -199,39 +589,30 @@
                     return data;
                 })
                 .then(data => {
-                    submitBtn.disabled = false;
-                    submitBtn.innerText = originalText;
-
-                    const offcanvasEl = document.getElementById('offcanvasEnd');
-                    const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasEl);
-                    if (offcanvasInstance) offcanvasInstance.hide();
-
-                    form.reset();
-
-                    // quick and safe: reload list so UI syncs. You can replace with smart row update.
-                    alert(data.message ?? 'Saved successfully!');
+                    showToast(data.message || 'Saved', 'success');
+                    bootstrap.Offcanvas.getInstance(offcanvasEl).hide();
                     location.reload();
                 })
                 .catch(err => {
                     submitBtn.disabled = false;
-                    submitBtn.innerText = originalText;
-                    if (err.errors) {
-                        let messages = '';
-                        Object.values(err.errors).forEach(arr => messages += arr[0] + '\n');
-                        alert(messages);
-                    } else if (err.message) alert(err.message);
-                    else alert('Something went wrong.');
+                    submitBtn.innerHTML = ORIGINAL_BTN_HTML;
+
+                    if (err && err.errors) showErrors(err.errors);
+                    else showToast(err.message || 'Something went wrong!', 'danger');
                 });
         });
-        /* Delete doctor via AJAX without page refresh */
 
+
+        // ===============================
+        // DELETE
+        // ===============================
         function deleteDoctor(id) {
-            if (!confirm('Are you sure you want to delete this doctor?')) return;
+            if (!confirm('Are you sure?')) return;
 
             fetch(`${baseDoctorsUrl}/${id}`, {
                     method: 'DELETE',
                     headers: {
-                        'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').value,
+                        'X-CSRF-TOKEN': form._token.value,
                         'Accept': 'application/json'
                     }
                 })
@@ -241,39 +622,17 @@
                     return data;
                 })
                 .then(data => {
-                    alert(data.message ?? 'Doctor deleted successfully!');
-
-                    // Row DOM thekei remove
-                    const row = document.getElementById(`doctorRow${id}`);
-                    if (row) row.remove();
-
-                    // **Important**: Delete korleo offcanvas open korar kono code nai
+                    showToast(data.message || 'Deleted', 'danger');
+                    document.getElementById(`doctorRow${id}`)?.remove();
                 })
-                .catch(err => {
-                    console.error(err);
-                    alert(err.message ?? 'Something went wrong while deleting!');
-                });
+                .catch(() => showToast('Delete failed!', 'danger'));
         }
 
-
-        document.addEventListener('DOMContentLoaded', function() {
-            const offcanvasEl = document.getElementById('offcanvasEnd');
-
-            offcanvasEl.addEventListener('hidden.bs.offcanvas', function() {
-
-                // 🔥 Remove backdrop manually
-                document.querySelectorAll('.offcanvas-backdrop').forEach(el => el.remove());
-
-                // 🔥 Unlock body scroll
-                document.body.classList.remove('modal-open');
-                document.body.style.overflow = '';
-                document.body.style.paddingRight = '';
-
-                // 🔥 Remove focus
-                if (document.activeElement) {
-                    document.activeElement.blur();
-                }
-            });
-        });
+        function deleteDoctor(id) {
+            confirmDelete(`${baseDoctorsUrl}/${id}`, `doctorRow${id}`, "Do you really want to delete this doctor?");
+        }
     </script>
-@endpush
+@endpush --}}
+
+
+

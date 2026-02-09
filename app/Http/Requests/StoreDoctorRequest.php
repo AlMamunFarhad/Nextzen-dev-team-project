@@ -22,11 +22,13 @@ class StoreDoctorRequest extends FormRequest
     public function rules(): array
     {
         return [
-            // 'user_id' => 'required|exists:users,id',
-            'specialization' => 'required|string|max:255',
-            'experience' => 'nullable|integer|min:0',
-            'fee' => 'nullable|numeric|min:0',
-            'bio' => 'nullable|string'
+            'user_id' => 'required|exists:users,id',
+            'name' => 'required|string|max:100',
+            'specialization' => 'required|string|max:100',
+            'experience' => 'required|integer|min:0',
+            'fee' => 'required|numeric|min:0',
+            'bio' => 'nullable|string',
+            'status' => 'nullable|boolean',
         ];
     }
 }

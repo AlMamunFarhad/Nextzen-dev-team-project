@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Doctors;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreScheduleRequest;
+use App\Models\Doctor;
 use App\Models\DoctorSchedule;
 use App\Models\TimeSlot;
 use Carbon\Carbon;
@@ -16,7 +17,13 @@ class DoctorScheduleController extends Controller
      */
     public function index()
     {
-        return DoctorSchedule::with('doctor', 'slots')->paginate(20);
+        // return DoctorSchedule::with('doctor', 'slots')->paginate(20);
+        if (request()->expectsJson()) {
+            return DoctorSchedule::with('doctor', 'slots')->paginate(20);
+        }
+
+        $doctors = Doctor::select('id', 'name')->get();
+        return view('schedules.index', compact('doctors'));
     }
 
 
@@ -51,7 +58,6 @@ class DoctorScheduleController extends Controller
     public function update(StoreScheduleRequest $r, DoctorSchedule $doctorSchedule)
     {
         $doctorSchedule->update($r->validated());
-        // regenerate slots if needed (simple approach: delete&regenerate)
         $doctorSchedule->slots()->delete();
         $this->generateSlotsForSchedule($doctorSchedule);
         return response()->json($doctorSchedule->load('slots'));
@@ -60,8 +66,9 @@ class DoctorScheduleController extends Controller
 
     public function destroy(DoctorSchedule $doctorSchedule)
     {
+           dd($doctorSchedule);
         $doctorSchedule->delete();
-        return response()->noContent();
+        return response()->json(['message' => 'Schedule deleted successfully!', 'success' => true]);
     }
 
     protected function generateSlotsForSchedule(DoctorSchedule $schedule)

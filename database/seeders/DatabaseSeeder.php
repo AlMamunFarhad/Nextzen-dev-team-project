@@ -19,7 +19,10 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        $this->call(UserSeeder::class);
+        $this->call([
+            UserSeeder::class,
+            DoctorSeeder::class,
+        ]);
         // Create admin user
         $admin = User::create(['name' => 'Admin', 'email' => 'admin@example.com', 'password' => Hash::make('password'), 'role' => 0]);
 

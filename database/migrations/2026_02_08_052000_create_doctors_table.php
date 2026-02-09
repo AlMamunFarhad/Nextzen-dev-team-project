@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')
                 ->constrained('users')
                 ->cascadeOnDelete();
+            $table->string('name')->nullable();
             $table->string('specialization');
             $table->integer('experience')->comment('Years');
             $table->decimal('fee', 8, 2);

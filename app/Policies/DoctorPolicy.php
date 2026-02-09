@@ -37,7 +37,7 @@ class DoctorPolicy
      */
     public function update(User $user, Doctor $doctor): bool
     {
-         return $user->id === $doctor->user_id;
+             return $user->role === 0 || $user->id === $doctor->user_id;
     }
 
     /**

@@ -377,11 +377,12 @@ function deleteDoctor(id) {
         return data;
     })
     .then(data => {
-        showToast(data.message || 'Deleted', 'danger');
+        showToast(data.message || 'Doctor deleted successfully!', 'danger');
         document.getElementById(`doctorRow${id}`)?.remove();
     })
     .catch(() => showToast('Delete failed!', 'danger'));
 }
+
 </script>
 @endpush
 

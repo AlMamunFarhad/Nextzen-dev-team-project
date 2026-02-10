@@ -9,20 +9,31 @@ use Illuminate\Database\Eloquent\Model;
 
 class TimeSlot extends Model
 {
-use HasFactory;
 
+    use HasFactory;
 
-protected $fillable = ['schedule_id','slot_time','is_booked'];
+    protected $fillable = [
+        'schedule_id',
+        'slot_time',
+        'is_booked',
+    ];
 
+    protected $casts = [
+        'is_booked' => 'boolean',
+    ];
 
-public function schedule()
-{
-return $this->belongsTo(DoctorSchedule::class, 'schedule_id');
-}
+    public function schedule()
+    {
+        return $this->belongsTo(DoctorSchedule::class);
+    }
 
+    public function appointment()
+    {
+        return $this->hasOne(Appointment::class, 'slot_id');
+    }
 
-public function appointment()
-{
-return $this->hasOne(Appointment::class, 'slot_id');
-}
+    // public function slots()
+    // {
+    //     return $this->hasMany(TimeSlot::class);
+    // }
 }

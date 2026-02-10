@@ -9,6 +9,7 @@ use App\Models\DoctorSchedule;
 use App\Models\TimeSlot;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class DoctorScheduleController extends Controller
 {
@@ -41,11 +42,24 @@ class DoctorScheduleController extends Controller
     }
 
 
-
-    public function show(DoctorSchedule $doctorSchedule)
+    public function show($id)
     {
-        return $doctorSchedule->load('slots');
+        $schedule = DoctorSchedule::with(['doctor', 'slots'])->find($id);
+
+        if (!$schedule) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Schedule not found',
+                'data' => null
+            ], 404);
+        }
+
+        return response()->json([
+            'success' => true,
+            'data' => $schedule
+        ]);
     }
+
 
     /**
      * Show the form for editing the specified resource.
@@ -55,37 +69,56 @@ class DoctorScheduleController extends Controller
         //
     }
 
-    public function update(StoreScheduleRequest $r, DoctorSchedule $doctorSchedule)
+    public function update(StoreScheduleRequest $request, DoctorSchedule $schedule)
     {
-        $doctorSchedule->update($r->validated());
-        $doctorSchedule->slots()->delete();
-        $this->generateSlotsForSchedule($doctorSchedule);
-        return response()->json($doctorSchedule->load('slots'));
+        // dd($schedule->exists, $schedule->id);
+        $schedule->update($request->validated());
+        $schedule->slots()->delete();
+        $this->generateSlotsForSchedule($schedule);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Doctor schedule updated successfully',
+            'data' => $schedule->load(['doctor', 'slots']),
+        ]);
     }
 
-
-    public function destroy(DoctorSchedule $doctorSchedule)
+    public function destroy(DoctorSchedule $schedule)
     {
-           dd($doctorSchedule);
-        $doctorSchedule->delete();
+        // ensure atomic delete
+        DB::transaction(function () use ($schedule) {
+            $schedule->slots()->delete();
+            $schedule->delete();
+        });
+
         return response()->json(['message' => 'Schedule deleted successfully!', 'success' => true]);
     }
 
     protected function generateSlotsForSchedule(DoctorSchedule $schedule)
     {
         $start = Carbon::createFromFormat('H:i', $schedule->start_time);
-        $end = Carbon::createFromFormat('H:i', $schedule->end_time);
-        $duration = $schedule->slot_duration ?: 15;
+        $end   = Carbon::createFromFormat('H:i', $schedule->end_time);
 
+        // ensure duration is int
+        $duration = (int) ($schedule->slot_duration ?: 15);
 
         $cur = $start->copy();
         $slots = [];
+
         while ($cur->lt($end)) {
-            $slots[] = ['schedule_id' => $schedule->id, 'slot_time' => $cur->format('H:i:s'), 'created_at' => now(), 'updated_at' => now()];
-            $cur->addMinutes($duration);
+            $slots[] = [
+                'schedule_id' => $schedule->id,
+                'slot_time'   => $cur->format('H:i:s'),
+                'created_at'  => now(),
+                'updated_at'  => now(),
+            ];
+            $cur->addMinutes($duration); // ✅ now it's int
         }
 
-
-        if (!empty($slots)) TimeSlot::insert($slots);
+        if (!empty($slots)) {
+            TimeSlot::insert($slots);
+        }
     }
+
+
 }

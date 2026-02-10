@@ -19,6 +19,7 @@ return new class extends Migration
             $table->time('slot_time');
             $table->boolean('is_booked')->default(0);
             $table->timestamps();
+            $table->unique(['schedule_id', 'slot_time']);
         });
     }
 

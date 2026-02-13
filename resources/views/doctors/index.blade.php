@@ -12,11 +12,11 @@
                         <table class="table table-striped">
                             <thead>
                                 <tr>
+                                    <th>Doctor Name</th>
                                     <th>Specialization</th>
                                     <th>Experience</th>
                                     <th>Fee</th>
                                     <th>Bio</th>
-                                    <th>Client</th>
                                     <th>Status</th>
                                     <th>Actions</th>
                                 </tr>
@@ -24,6 +24,7 @@
                             <tbody class="table-border-bottom-0">
                                 @foreach ($doctors as $doctor)
                                     <tr id="doctorRow{{ $doctor->id }}">
+                                        <td>{{ $doctor->name }}</td>
                                         <td><i class="fab fa-angular fa-lg text-danger me-3"></i>
                                             <strong>{{ $doctor->specialization }}</strong>
                                         </td>

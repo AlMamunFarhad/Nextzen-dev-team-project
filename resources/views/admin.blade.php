@@ -96,6 +96,18 @@
                             <div data-i18n="Account Settings">Schedules</div>
                         </a>
                     </li>
+                    <li class="menu-item">
+                        <a href="{{ route('patients.index') }}" class="menu-link">
+                            <i class="menu-icon tf-icons bx bx-dock-top"></i>
+                            <div data-i18n="Account Settings">Patients</div>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="{{ route('appointments.index') }}" class="menu-link">
+                            <i class="menu-icon tf-icons bx bx-dock-top"></i>
+                            <div data-i18n="Account Settings">Appointments</div>
+                        </a>
+                    </li>
                 </ul>
             </aside>
             <!-- / Menu -->

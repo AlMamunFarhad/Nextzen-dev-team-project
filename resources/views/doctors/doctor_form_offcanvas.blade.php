@@ -46,6 +46,18 @@
                 <form action="{{ route('doctors.store') }}" method="POST" id="doctorForm">
                     @csrf
                     <input type="hidden" name="doctor_id" id="doctor_id">
+                    <input type="hidden" name="user_id" value="{{ auth()->id() }}">
+                    {{-- NAME FIELD ADDED --}}
+                    <div class="mb-3">
+                        <label class="form-label" for="name">Doctor Name</label>
+                        <div class="input-group input-group-merge">
+                            <span class="input-group-text"><i class="bx bx-user"></i></span>
+                            <input type="text" name="name" class="form-control" id="name"
+                                placeholder="Dr. John Doe..." />
+                            <div class="invalid-feedback"></div>
+                        </div>
+                    </div>
+
                     <div class="mb-3">
                         <label class="form-label" for="specialization">Specialization</label>
                         <div class="input-group input-group-merge">
@@ -70,7 +82,7 @@
                         <label class="form-label" for="fee">Consultation Fee</label>
                         <div class="input-group input-group-merge">
                             <span class="input-group-text"><i class="bx bx-dollar"></i></span>
-                            <input type="number" name="fee" id="fee" class="form-control"
+                            <input type="number" step="0.01" name="fee" id="fee" class="form-control"
                                 placeholder="100..." />
                             <span class="input-group-text">$</span>
                             <div class="invalid-feedback"></div>
@@ -232,6 +244,7 @@ function openDoctorForm(doctor = null) {
         if (doctorIdInput) doctorIdInput.value = doctor.id;
 
         // populate fields
+        form.querySelector('[name="name"]').value = doctor.name ?? '';
         form.querySelector('[name="specialization"]').value = doctor.specialization ?? '';
         form.querySelector('[name="experience"]').value = doctor.experience ?? '';
         form.querySelector('[name="fee"]').value = doctor.fee ?? '';
@@ -385,255 +398,5 @@ function deleteDoctor(id) {
 
 </script>
 @endpush
-
-
-
-
-
-
-
-
-
-
-
-
-{{-- @push('scripts')
-    <script>
-        const form = document.getElementById('doctorForm');
-        const submitBtn = document.getElementById('doctorSubmitBtn');
-        const titleEl = document.getElementById('offcanvasEndLabel');
-        const offcanvasEl = document.getElementById('offcanvasEnd');
-        const storeUrl = "{{ route('doctors.store') }}";
-        const baseDoctorsUrl = "{{ url('doctors') }}";
-
-        const ORIGINAL_BTN_HTML = submitBtn.innerHTML;
-
-        // ===============================
-        // TOAST
-        // ===============================
-        function showToast(message, type = 'success') {
-            const toastEl = document.getElementById('globalToast');
-            const toastMsg = document.getElementById('toastMessage');
-
-            toastEl.classList.remove('text-bg-success', 'text-bg-danger', 'text-bg-warning', 'text-bg-info');
-            toastEl.classList.add(`text-bg-${type}`);
-            toastMsg.innerText = message;
-
-            new bootstrap.Toast(toastEl, {
-                delay: 3000
-            }).show();
-        }
-
-        // ===============================
-        // HELPERS: clear/show errors
-        // ===============================
-        function clearErrors() {
-            form.querySelectorAll('.invalid-feedback').forEach(el => el.innerText = '');
-            form.querySelectorAll('.is-invalid').forEach(el => el.classList.remove('is-invalid'));
-        }
-
-        function findFeedbackElementFor(input) {
-            const group = input.closest('.input-group') || input.parentElement;
-            if (!group) return null;
-            return group.querySelector('.invalid-feedback') || input.nextElementSibling;
-        }
-
-        function showErrors(errors) {
-            Object.keys(errors).forEach(field => {
-                const input = form.querySelector(`[name="${field}"]`);
-                if (!input) return;
-                const feedback = findFeedbackElementFor(input);
-                if (feedback) feedback.innerText = errors[field][0];
-            });
-        }
-
-        form.querySelectorAll('input, textarea').forEach(input => {
-            input.addEventListener('input', () => {
-                const fb = findFeedbackElementFor(input);
-                if (fb) fb.innerText = '';
-            });
-        });
-
-        // ===============================
-        // OFFCANVAS RESET
-        // ===============================
-        offcanvasEl.addEventListener('hidden.bs.offcanvas', () => {
-            form.reset();
-            const method = form.querySelector('input[name="_method"]');
-            if (method) method.remove();
-
-            submitBtn.disabled = false;
-            submitBtn.innerHTML = ORIGINAL_BTN_HTML;
-
-            titleEl.innerText = 'Add New Doctor';
-            form.action = storeUrl;
-
-            document.querySelectorAll('.offcanvas-backdrop').forEach(el => el.remove());
-            document.body.classList.remove('modal-open');
-            document.body.style.overflow = '';
-            document.body.style.paddingRight = '';
-
-            clearErrors();
-        });
-
-        // ===============================
-        // OPEN FORM (CREATE/EDIT)
-        // ===============================
-        function openDoctorForm(doctor = null) {
-            const offcanvas = bootstrap.Offcanvas.getOrCreateInstance(offcanvasEl);
-
-            form.reset();
-            clearErrors();
-            const oldMethod = form.querySelector('input[name="_method"]');
-            if (oldMethod) oldMethod.remove();
-
-            if (doctor) {
-                // Existing populate fields
-                form.querySelector('[name="specialization"]').value = doctor.specialization ?? '';
-                form.querySelector('[name="experience"]').value = doctor.experience ?? '';
-                form.querySelector('[name="fee"]').value = doctor.fee ?? '';
-                form.querySelector('[name="bio"]').value = doctor.bio ?? '';
-
-                // Populate status
-                const statusInput = form.querySelector('[name="status"]');
-                if (statusInput) {
-                    statusInput.checked = doctor.status ? true : false;
-                    statusInput.nextElementSibling.innerText = doctor.status ? 'Active' : 'Inactive';
-                }
-
-            } else {
-                // New form defaults
-                const statusInput = form.querySelector('[name="status"]');
-                if (statusInput) {
-                    statusInput.checked = true; // default active
-                    statusInput.nextElementSibling.innerText = 'Active';
-                }
-            }
-
-
-            // if (doctor) {
-            //     titleEl.innerText = 'Edit Doctor Profile';
-            //     submitBtn.innerHTML = 'Update Profile';
-            //     form.action = `${baseDoctorsUrl}/${doctor.id}`;
-
-            //     const methodInput = document.createElement('input');
-            //     methodInput.type = 'hidden';
-            //     methodInput.name = '_method';
-            //     methodInput.value = 'PUT';
-            //     form.appendChild(methodInput);
-
-            //     form.querySelector('[name="specialization"]').value = doctor.specialization ?? '';
-            //     form.querySelector('[name="experience"]').value = doctor.experience ?? '';
-            //     form.querySelector('[name="fee"]').value = doctor.fee ?? '';
-            //     form.querySelector('[name="bio"]').value = doctor.bio ?? '';
-            // } else {
-            //     titleEl.innerText = 'Add New Doctor';
-            //     submitBtn.innerHTML = ORIGINAL_BTN_HTML;
-            //     form.action = storeUrl;
-            // }
-
-            offcanvas.show();
-        }
-
-        const statusCheckbox = form.querySelector('[name="status"]');
-        if (statusCheckbox) {
-            statusCheckbox.addEventListener('change', function() {
-                this.nextElementSibling.innerText = this.checked ? 'Active' : 'Inactive';
-            });
-        }
-
-
-        function fetchDoctor(id) {
-            fetch(`${baseDoctorsUrl}/${id}/edit`, {
-                    headers: {
-                        'Accept': 'application/json'
-                    }
-                })
-                .then(async res => {
-                    const data = await res.json().catch(() => null);
-                    if (!res.ok) throw data || {
-                        message: 'Failed to fetch'
-                    };
-                    return data;
-                })
-                .then(doctorData => {
-                    // Ensure doctorData has the correct fields expected in openDoctorForm
-                    openDoctorForm(doctorData);
-                })
-                .catch(err => {
-                    showToast(err?.message || 'Failed to load doctor', 'danger');
-                });
-        }
-
-        // ===============================
-        // CREATE/UPDATE AJAX
-        // ===============================
-        form.addEventListener('submit', function(e) {
-            e.preventDefault();
-            clearErrors();
-
-            submitBtn.disabled = true;
-            submitBtn.innerHTML =
-                '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Saving...';
-
-            fetch(form.action, {
-                    method: 'POST',
-                    headers: {
-                        'X-CSRF-TOKEN': form._token.value,
-                        'Accept': 'application/json'
-                    },
-                    body: new FormData(form)
-                })
-                .then(async res => {
-                    const data = await res.json().catch(() => ({}));
-                    if (!res.ok) throw data;
-                    return data;
-                })
-                .then(data => {
-                    showToast(data.message || 'Saved', 'success');
-                    bootstrap.Offcanvas.getInstance(offcanvasEl).hide();
-                    location.reload();
-                })
-                .catch(err => {
-                    submitBtn.disabled = false;
-                    submitBtn.innerHTML = ORIGINAL_BTN_HTML;
-
-                    if (err && err.errors) showErrors(err.errors);
-                    else showToast(err.message || 'Something went wrong!', 'danger');
-                });
-        });
-
-
-        // ===============================
-        // DELETE
-        // ===============================
-        function deleteDoctor(id) {
-            if (!confirm('Are you sure?')) return;
-
-            fetch(`${baseDoctorsUrl}/${id}`, {
-                    method: 'DELETE',
-                    headers: {
-                        'X-CSRF-TOKEN': form._token.value,
-                        'Accept': 'application/json'
-                    }
-                })
-                .then(async res => {
-                    const data = await res.json().catch(() => ({}));
-                    if (!res.ok) throw data;
-                    return data;
-                })
-                .then(data => {
-                    showToast(data.message || 'Deleted', 'danger');
-                    document.getElementById(`doctorRow${id}`)?.remove();
-                })
-                .catch(() => showToast('Delete failed!', 'danger'));
-        }
-
-        function deleteDoctor(id) {
-            confirmDelete(`${baseDoctorsUrl}/${id}`, `doctorRow${id}`, "Do you really want to delete this doctor?");
-        }
-    </script>
-@endpush --}}
-
 
 

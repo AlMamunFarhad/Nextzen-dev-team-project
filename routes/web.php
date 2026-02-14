@@ -14,14 +14,16 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\VideoController;
 use Illuminate\Support\Facades\Route;
 
+<<<<<<< HEAD
 
 
 
 
+=======
+>>>>>>> main
 Route::get('/', function () {
     return view('index');
 })->name('home');
-
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -29,12 +31,19 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::middleware('auth')->group(function() {
+Route::middleware('auth')->group(function () {
     Route::resource('doctors', DoctorController::class);
     Route::resource('schedules', DoctorScheduleController::class);
     Route::get('slots', [TimeSlotController::class, 'index']);
+    Route::get('/appointments/list', [AppointmentController::class, 'appointmentList'])
+        ->name('appointments.list');
     Route::resource('appointments', AppointmentController::class);
+    Route::get('appointments-data', [AppointmentController::class, 'data'])
+        ->name('appointments.data');
+    Route::get('time-slots', [AppointmentController::class, 'getSlots'])
+        ->name('appointments.slots');
     Route::resource('patients', PatientController::class);
+<<<<<<< HEAD
 
 
     // video call route
@@ -44,8 +53,11 @@ Route::middleware('auth')->group(function() {
     Route::get('/video/{id}/ended', [VideoController::class, 'ended'])->name('video.ended');
 
 
+=======
+    Route::get('patients-data', [PatientController::class, 'data'])
+        ->name('patients.data');
+>>>>>>> main
 });
-
 
 Route::get('patient/dashboard', [DashboardController::class, 'userdashboard'])->middleware('auth', 'patient')->name('patient.dashboard');
 Route::get('doctor/dashboard', [DashboardController::class, 'sellerdashboard'])->middleware('auth', 'doctor')->name('doctor.dashboard');

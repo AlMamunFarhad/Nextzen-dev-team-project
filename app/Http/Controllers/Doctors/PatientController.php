@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Doctors;
 
 use App\Http\Controllers\Controller;
 use App\Models\Patient;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class PatientController extends Controller
@@ -13,7 +14,14 @@ class PatientController extends Controller
      */
     public function index()
     {
-        return Patient::with('user')->paginate(20);
+        $users = User::all();
+
+        return view('patients.index', compact('users'));
+    }
+
+    public function data()
+    {
+        return Patient::with('user')->latest()->paginate(10);
     }
 
     /**
@@ -24,14 +32,24 @@ class PatientController extends Controller
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $r)
     {
-        $r->validate(['user_id' => 'required|exists:users,id', 'age' => 'nullable|integer', 'gender' => 'nullable|in:male,female,other']);
+        $r->validate([
+            'user_id' => 'required|exists:users,id|unique:patients,user_id',
+            'age' => 'nullable|integer|min:0|max:150',
+            'gender' => 'nullable|in:male,female,other',
+            'address' => 'nullable|string|max:255',
+        ]);
+
         $patient = Patient::create($r->only(['user_id', 'age', 'gender', 'address']));
-        return response()->json($patient, 201);
+
+        // Optional: eager load user relation for frontend
+        $patient->load('user');
+
+        return response()->json([
+            'message' => 'Patient created successfully',
+            'patient' => $patient,
+        ], 201);
     }
 
     /**
@@ -41,6 +59,7 @@ class PatientController extends Controller
     {
         return $patient->load('user', 'appointments');
     }
+
     /**
      * Show the form for editing the specified resource.
      */
@@ -54,14 +73,15 @@ class PatientController extends Controller
      */
     public function update(Request $r, Patient $patient)
     {
-        $patient->update($r->only(['age', 'gender', 'address']));
+        $patient->update($r->only(['user_id', 'age', 'gender', 'address']));
+
         return response()->json($patient);
     }
-
 
     public function destroy(Patient $patient)
     {
         $patient->delete();
+
         return response()->noContent();
     }
 }

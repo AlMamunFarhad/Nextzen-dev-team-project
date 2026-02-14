@@ -17,7 +17,7 @@ class DoctorController extends Controller
      */
     public function index()
     {
-        $doctors = Doctor::with('user', 'schedules')->paginate(15);
+        $doctors = Doctor::with('user', 'schedules')->paginate(12);
         return view('doctors.index', compact('doctors'));
     }
 
@@ -37,7 +37,7 @@ class DoctorController extends Controller
         $data = $r->validated();
         $data['user_id'] = auth()->id();
         $doctor = Doctor::create($data);
-        return response()->json($data, 201);
+        return response()->json(['success' => true, 'message' => 'Doctor created successfully!', 'doctor' => $doctor], 201);
     }
 
     /**
@@ -53,6 +53,7 @@ class DoctorController extends Controller
      */
     public function edit(Doctor $doctor)
     {
+        // $this->authorize('update', $doctor);
         return response()->json($doctor);
     }
 
@@ -65,10 +66,9 @@ class DoctorController extends Controller
     {
         $this->authorize('update', $doctor); // optional
         $data = $r->validated();
+        $data['status'] = $r->has('status') && $r->status == 1 ? 1 : 0;
         $doctor->update($data);
-        return response()->json(['message' => 'Updated', 'doctor' => $doctor]);
-        // $doctor->update($r->validated());
-        // return response()->json($doctor);
+        return response()->json(['success' => true, 'message' => 'Doctor updated successfully!', 'doctor' => $doctor]);
     }
 
     /**
@@ -79,6 +79,6 @@ class DoctorController extends Controller
     public function destroy(Doctor $doctor)
     {
         $doctor->delete();
-        return response()->noContent();
+        return response()->json(['success' => true, 'message' => 'Doctor deleted successfully!']);
     }
 }

@@ -26,7 +26,7 @@ class StoreScheduleRequest extends FormRequest
             'day' => 'required|in:Saturday,Sunday,Monday,Tuesday,Wednesday,Thursday,Friday',
             'start_time' => 'required|date_format:H:i',
             'end_time' => 'required|date_format:H:i|after:start_time',
-            'slot_duration' => 'nullable|integer|min:5'
+            'slot_duration' => 'required|integer|min:1'
         ];
     }
 }

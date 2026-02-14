@@ -19,6 +19,7 @@ return new class extends Migration
             $table->enum('day', ['Saturday','Sunday','Monday','Tuesday','Wednesday','Thursday','Friday']);
             $table->time('start_time');
             $table->time('end_time');
+            $table->integer('slot_duration')->default(15); // in minutes
             $table->timestamps();
         });
     }

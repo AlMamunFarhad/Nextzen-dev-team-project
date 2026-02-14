@@ -22,6 +22,7 @@ class TimeSlotController extends Controller
         if ($r->filled('date')) {
             // slots are template times; date filter handled at appointment time
         }
+
         return $query->paginate(30);
     }
 
@@ -71,5 +72,20 @@ class TimeSlotController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function getByDoctorAndDate(Request $request)
+    {
+        $request->validate([
+            'doctor_id' => 'required|exists:doctors,id',
+            'date' => 'required|date',
+        ]);
+
+        $slots = TimeSlot::whereHas('schedule', function ($q) use ($request) {
+            $q->where('doctor_id', $request->doctor_id);
+        })
+            ->get();
+
+        return response()->json($slots);
     }
 }

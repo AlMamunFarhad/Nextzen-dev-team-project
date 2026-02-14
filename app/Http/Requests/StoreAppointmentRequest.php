@@ -26,7 +26,8 @@ class StoreAppointmentRequest extends FormRequest
             'patient_id' => 'required|exists:patients,id',
             'slot_id' => 'required|exists:time_slots,id',
             'appointment_date' => 'required|date|after_or_equal:today',
-            'notes' => 'nullable|string'
+            'notes' => 'nullable|string',
+            'status' => 'nullable|in:pending,approved,completed,cancelled',
         ];
     }
 }

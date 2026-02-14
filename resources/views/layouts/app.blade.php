@@ -100,8 +100,9 @@
 
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
-    @stack('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+<<<<<<< HEAD
 
 
 
@@ -156,6 +157,45 @@
         });
     </script>
 
+=======
+    @stack('scripts')
+    <script>
+        function confirmDelete(url, rowId = null, message = "Are you sure?", callback = null) {
+            Swal.fire({
+                title: message,
+                text: "This action cannot be undone!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Yes, delete it!',
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    fetch(url, {
+                            method: 'DELETE',
+                            headers: {
+                                'X-CSRF-TOKEN': form._token.value,
+                                'Accept': 'application/json'
+                            }
+                        })
+                        .then(async res => {
+                            const data = await res.json().catch(() => ({}));
+                            if (!res.ok) throw data;
+                            return data;
+                        })
+                        .then(data => {
+                            showToast(data.message || 'Deleted', 'danger');
+
+                            if (rowId) document.getElementById(rowId)?.remove();
+                            if (callback) callback(data);
+                        })
+                        .catch(() => showToast('Delete failed!', 'danger'));
+                }
+            });
+        }
+    </script>
+>>>>>>> main
 </body>
 
 </html>

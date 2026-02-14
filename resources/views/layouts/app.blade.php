@@ -20,12 +20,17 @@
     <!-- Icons. Uncomment required icon fonts -->
     <link rel="stylesheet" href="{{ asset('admin/assets/vendor/fonts/boxicons.css') }}" />
 
+
+
     <!-- Core CSS -->
     <link rel="stylesheet" href="{{ asset('admin/assets/vendor/css/core.css') }}"
         class="template-customizer-core-css" />
     <link rel="stylesheet" href="{{ asset('admin/assets/vendor/css/theme-default.css') }}"
         class="template-customizer-theme-css" />
     <link rel="stylesheet" href="{{ asset('admin/assets/css/demo.css') }}" />
+
+     <!-- Toastr CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 
     <!-- Vendors CSS -->
     <link rel="stylesheet" href="{{ asset('admin/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css') }}" />
@@ -80,6 +85,13 @@
     <!-- Vendors JS -->
     <script src="{{ asset('admin/assets/vendor/libs/apex-charts/apexcharts.js') }}"></script>
 
+
+    <!-- Toastr JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    {{-- sweetalert --}}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
     <!-- Main JS -->
     <script src="{{ asset('admin/assets/js/main.js') }}"></script>
 
@@ -89,6 +101,60 @@
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     @stack('scripts')
+
+
+
+
+
+
+     <!-- Toastr JS -->
+
+    <script>
+        toastr.options = {
+            "closeButton": true,
+            "progressBar": true,
+            "positionClass": "toast-top-right",
+            "timeOut": "6000"
+        }
+
+        @if ($errors->any())
+            toastr.error("{{ $errors->first() }}");
+        @endif
+
+        @if(session('success'))
+            toastr.success("{{ session('success') }}");
+        @endif
+
+    </script>
+
+
+    {{-- Dynamic Delete Confirmation with SweetAlert --}}
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            document.querySelectorAll(".delete-form").forEach(form => {
+                form.addEventListener("submit", function (e) {
+                    e.preventDefault(); // stop form submission
+
+                    let message = form.getAttribute("data-message") || "Are you sure you want to delete this item?";
+
+                    Swal.fire({
+                        title: "Confirm Delete",
+                        text: message,
+                        icon: "question",
+                        showCancelButton: true,
+                        confirmButtonColor: "#d33",
+                        cancelButtonColor: "#3085d6",
+                        confirmButtonText: "Yes, delete it!",
+                        cancelButtonText: "Cancel"
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            form.submit(); // finally submit if confirmed
+                        }
+                    });
+                });
+            });
+        });
+    </script>
 
 </body>
 

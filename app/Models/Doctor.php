@@ -32,4 +32,13 @@ class Doctor extends Model
     {
         return $this->hasMany(Appointment::class);
     }
+
+
+    // Clinic 
+    public function clinic()
+    {
+        return $this->belongsTo(Clinic::class);
+    }
+
+
 }

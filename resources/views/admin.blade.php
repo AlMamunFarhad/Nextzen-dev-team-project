@@ -78,6 +78,12 @@
                             <div data-i18n="Account Settings">Doctors</div>
                         </a>
                     </li>
+                    <li class="menu-item">
+                        <a href="{{ route('clinics.index') }}" class="menu-link">
+                            <i class="menu-icon tf-icons bx bx-dock-top"></i>
+                            <div data-i18n="Account Settings">Clinic</div>
+                        </a>
+                    </li>
                 </ul>
             </aside>
             <!-- / Menu -->

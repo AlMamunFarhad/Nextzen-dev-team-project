@@ -18,7 +18,9 @@
     <!-- Owl Carousel -->
     <link rel="stylesheet" href="{{ asset('assets/css/owl.carousel.min.css') }}">
     <!-- Nice Select  -->
-   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css">
+    <!-- Toastr CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <!-- Style Css -->
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
     <!-- Responsive Css -->
@@ -594,7 +596,7 @@
                <div class="card primary-bg-light border-0 mb-4">
                   <div class="card-body p-4">
                      <h6 class="font18px fw-bold text-dark mb-3">Quick Actions</h6>
-                     <a class="custom_btn w-100 mb-2" href="#">
+                     <a class="custom_btn w-100 mb-2" href="{{ route('video.call') }}">
                         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M10.6666 8.66676L14.1486 10.9881C14.1988 11.0215 14.2571 11.0407 14.3174 11.0435C14.3776 11.0464 14.4375 11.0329 14.4906 11.0045C14.5438 10.976 14.5882 10.9337 14.6192 10.8819C14.6502 10.8302 14.6666 10.7711 14.6666 10.7108V5.24676C14.6666 5.18811 14.6512 5.13049 14.6218 5.07973C14.5924 5.02896 14.5502 4.98684 14.4993 4.95763C14.4485 4.92841 14.3908 4.91313 14.3322 4.91333C14.2735 4.91353 14.2159 4.9292 14.1653 4.95876L10.6666 7.0001" stroke="white" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round" />
                         <path d="M9.33337 4H2.66671C1.93033 4 1.33337 4.59695 1.33337 5.33333V10.6667C1.33337 11.403 1.93033 12 2.66671 12H9.33337C10.0698 12 10.6667 11.403 10.6667 10.6667V5.33333C10.6667 4.59695 10.0698 4 9.33337 4Z" stroke="white" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round" />
@@ -1220,24 +1222,25 @@
             <div class="contact-card card border-0 py-4 px-3 h-100">
                <div class="card-body">
                   <h5 class="mb-4 font20 fw-bold text-dark">Send us a Message</h5>
-                  <form class="contact-form">
+                  <form action="{{ route('contact.send') }}" method="POST" class="contact-form">
+                    @csrf
                      <div class="row gx-3">
                         <div class="col-md-6 mb-3">
                            <label class="font14 text-dark fw-medium mb-2">Your Name</label>
-                           <input type="text" class="form-control">
+                           <input type="text" class="form-control" name="name" value="{{ old('name') }}">
                         </div>
                         <div class="col-md-6 mb-3">
                            <label class="font14 text-dark fw-medium mb-2">Email Address</label>
-                           <input type="email" class="form-control">
+                           <input type="email" name="email" value="{{ old('email') }}" class="form-control">
                         </div>
                      </div>
                      <div class="mb-3">
                         <label class="font14 text-dark fw-medium mb-2">Phone Number</label>
-                        <input type="text" class="form-control">
+                        <input type="text" name="phone" value="{{ old('phone') }}" class="form-control">
                      </div>
                      <div class="mb-3">
                         <label class="font14 text-dark fw-medium mb-2">Your Message</label>
-                        <textarea class="form-control" rows="4"></textarea>
+                        <textarea class="form-control" rows="4" name="message">{{ old('message') }}</textarea>
                      </div>
                      <button class="custom_btn justify-content-center border-0 w-100">
                         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1482,7 +1485,33 @@
     <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('assets/js/owl.carousel.min.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/js/jquery.nice-select.min.js"></script>
+
+    <!-- Toastr JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
     <script src="{{ asset('assets/js/script.js') }}"></script>
+
+
+
+    <!-- Toastr JS -->
+
+    <script>
+        toastr.options = {
+            "closeButton": true,
+            "progressBar": true,
+            "positionClass": "toast-top-right",
+            "timeOut": "6000"
+        }
+
+        @if ($errors->any())
+            toastr.error("{{ $errors->first() }}");
+        @endif
+
+        @if(session('success'))
+            toastr.success("{{ session('success') }}");
+        @endif
+
+    </script>
 </body>
 
 </html>

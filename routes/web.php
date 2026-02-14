@@ -1,6 +1,6 @@
 <?php
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Doctors\AppointmentController;
@@ -25,17 +25,16 @@ Route::middleware('auth')->group(function () {
     Route::resource('doctors', DoctorController::class);
     Route::resource('schedules', DoctorScheduleController::class);
     Route::get('slots', [TimeSlotController::class, 'index']);
+    Route::get('/appointments/list', [AppointmentController::class, 'appointmentList'])
+        ->name('appointments.list');
     Route::resource('appointments', AppointmentController::class);
     Route::get('appointments-data', [AppointmentController::class, 'data'])
         ->name('appointments.data');
     Route::get('time-slots', [AppointmentController::class, 'getSlots'])
         ->name('appointments.slots');
-    Route::get('/appointments/list', [AppointmentController::class, 'appointmentList'])
-        ->name('appointments.list');
     Route::resource('patients', PatientController::class);
     Route::get('patients-data', [PatientController::class, 'data'])
         ->name('patients.data');
-
 });
 
 Route::get('patient/dashboard', [DashboardController::class, 'userdashboard'])->middleware('auth', 'patient')->name('patient.dashboard');

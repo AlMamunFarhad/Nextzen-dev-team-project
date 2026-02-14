@@ -18,7 +18,6 @@ class DoctorScheduleController extends Controller
      */
     public function index()
     {
-        // return DoctorSchedule::with('doctor', 'slots')->paginate(20);
         if (request()->expectsJson()) {
             return DoctorSchedule::with('doctor', 'slots')->paginate(20);
         }

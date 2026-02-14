@@ -17,25 +17,14 @@ class AppointmentController extends Controller
     {
         $doctors = Doctor::all();
         $patients = Patient::with('user')->get();
-        // $appointments = Appointment::with([
-        //     'doctor.user',
-        //     'patient.user',
-        //     'slot',
-        // ])->latest()->paginate(20);
-
-        return view('appointments.index', compact('doctors', 'patients'));
-    }
-
-    public function appointmentList()
-    {
         $appointments = Appointment::with([
             'doctor.user',
             'patient.user',
             'slot',
-        ])->latest()->get();
-
-        return response()->json($appointments);
+        ])->latest()->paginate(20);
+        return view('appointments.index', compact('doctors', 'patients', 'appointments'));
     }
+
 
     public function data(Request $r)
     {
@@ -91,6 +80,7 @@ class AppointmentController extends Controller
                 'slot_id' => $slot->id,
                 'appointment_date' => $data['appointment_date'],
                 'notes' => $data['notes'] ?? null,
+                'status' => $data['status'] ?? 'pending',
             ]);
 
             return response()->json($appointment->load('doctor.user', 'patient.user', 'slot'), 201);
@@ -118,13 +108,18 @@ class AppointmentController extends Controller
      */
     public function update(Request $r, Appointment $appointment)
     {
-        // For admin/doctor: change status or notes
         $this->authorizeAction($appointment);
-        $data = $r->only(['status', 'notes']);
+        $data = $r->only([
+            'doctor_id',
+            'patient_id',
+            'slot_id',
+            'appointment_date',
+            'notes',
+            'status'
+        ]);
         if (isset($data['status']) && ! in_array($data['status'], ['pending', 'approved', 'completed', 'cancelled'])) {
             return response()->json(['message' => 'Invalid status'], 422);
         }
-
         // If cancelling, free slot
         if (isset($data['status']) && $data['status'] === 'cancelled') {
             $appointment->slot->is_booked = 0;
@@ -152,7 +147,6 @@ class AppointmentController extends Controller
 
     protected function authorizeAction(Appointment $appointment)
     {
-        // placeholder: implement policy or middleware
         return true;
     }
 
@@ -177,6 +171,5 @@ class AppointmentController extends Controller
                 'is_booked' => $slot->is_booked,
             ];
         }));
-
     }
 }

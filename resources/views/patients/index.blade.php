@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container">
-        <h3 class="mb-y">Patient Management</h3>
+        <h3 class="my-4">Patient Management</h3>
 
         <div class="card mb-4 patient-card">
             <div class="card-body">

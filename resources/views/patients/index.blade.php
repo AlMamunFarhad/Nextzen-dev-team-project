@@ -173,7 +173,11 @@
                     success: function(res) {
 
                         $('#message').html(
-                            '<div class="alert alert-success">Saved Successfully</div>');
+                            '<div class="alert alert-success">Saved patient Successfully</div>');
+
+                        setTimeout(function() {
+                            $('#message').html('');
+                        }, 3000);
 
                         $('#age').val('');
                         $('#gender').val('');

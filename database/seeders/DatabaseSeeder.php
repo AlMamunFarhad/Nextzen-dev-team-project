@@ -6,6 +6,8 @@ use App\Models\Doctor;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\Patient;
 use App\Models\User;
+use Database\Seeders\DoctorSeeder;
+use Database\Seeders\ReceptionistSeeder;
 use Database\Seeders\UserSeeder;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -22,6 +24,8 @@ class DatabaseSeeder extends Seeder
         $this->call([
             UserSeeder::class,
             DoctorSeeder::class,
+            ReceptionistSeeder::class,
+            ClinicSeeder::class,
         ]);
         // Create admin user
         $admin = User::create(['name' => 'Admin', 'email' => 'admin@example.com', 'password' => Hash::make('password'), 'role' => 0]);
@@ -29,7 +33,7 @@ class DatabaseSeeder extends Seeder
 
         // Create a doctor user + doctor profile
         $userDoc = User::create(['name' => 'Dr. John', 'email' => 'doc@example.com', 'password' => Hash::make('password'), 'role' => 1]);
-        Doctor::create(['user_id' => $userDoc->id, 'specialization' => 'General', 'experience' => 5, 'fee' => 500]);
+        Doctor::create(['user_id' => $userDoc->id, 'specialization' => 'General', 'experience' => 5, 'consultation_fee' => 500]);
 
 
         // Create a patient user + patient profile

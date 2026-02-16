@@ -11,6 +11,30 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
+    // User model role constants
+
+    public const ROLE_ADMIN = 0;
+    public const ROLE_DOCTOR = 1;
+    public const ROLE_PATIENT = 2;
+    public const ROLE_RECEPTIONIST = 3;
+
+    public function isAdmin()
+    {
+        return $this->role == self::ROLE_ADMIN;
+    }
+    public function isReceptionist()
+    {
+        return $this->role == self::ROLE_RECEPTIONIST;
+    }
+    public function isDoctor()
+    {
+        return $this->role == self::ROLE_DOCTOR;
+    }
+    public function isPatient()
+    {
+        return $this->role == self::ROLE_DOCTOR;
+    }
+
     /**
      * The attributes that are mass assignable.
      *
@@ -43,5 +67,10 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function clinic()
+    {
+        return $this->belongsTo(Clinic::class);
     }
 }

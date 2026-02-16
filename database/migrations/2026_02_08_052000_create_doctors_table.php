@@ -16,12 +16,14 @@ return new class extends Migration
             $table->foreignId('user_id')
                 ->constrained('users')
                 ->cascadeOnDelete();
+            $table->foreignId('clinic_id')->nullable()->constrained('clinics')->nullOnDelete();
             $table->string('name')->nullable();
             $table->string('specialization');
             $table->integer('experience')->comment('Years');
-            $table->decimal('fee', 8, 2);
             $table->text('bio')->nullable();
             $table->boolean('status')->default(1);
+            $table->decimal('consultation_fee', 10, 2)->default(0);
+            $table->decimal('commission_percent', 5, 2)->default(0);
             $table->timestamps();
         });
     }

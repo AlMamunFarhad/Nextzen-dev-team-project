@@ -30,12 +30,14 @@ class AuthenticatedSessionController extends Controller
 
         //Start Authentication Role Permission
         $authUserRole = Auth::user()->role;
-        if($authUserRole == 0) {
+        if ($authUserRole == 0) {
             return redirect()->intended(route('admin.dashboard', absolute: false));
-        } elseif($authUserRole == 1) {
+        } elseif ($authUserRole == 1) {
             return redirect()->intended(route('doctor.dashboard', absolute: false));
-        } else {
+        } elseif ($authUserRole == 2) {
             return redirect()->intended(route('patient.dashboard', absolute: false));
+        } else {
+            return redirect()->intended(route('receptionist.dashboard', absolute: false));
         }
         //End Authentication Role Permission
 
@@ -52,6 +54,6 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect('/');
+        return redirect('/login');
     }
 }

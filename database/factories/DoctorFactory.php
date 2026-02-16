@@ -21,9 +21,9 @@ class DoctorFactory extends Factory
             'name' => $this->faker->name(),
             'specialization' => $this->faker->randomElement(['General', 'Cardiology', 'Dermatology', 'Neurology']),
             'experience' => $this->faker->numberBetween(1, 40),
-            'fee' => $this->faker->randomFloat(2, 100, 1000),
+            'consultation_fee' => $this->faker->randomFloat(2, 100, 1000),
             'bio' => $this->faker->text(50),
-            'status' => 1, 
+            'status' => 1,
         ];
     }
 }

@@ -75,39 +75,61 @@
 
                 <ul class="menu-inner py-1">
                     <!-- Dashboard -->
-                    <li class="menu-item active">
-                        <a href="index.html" class="menu-link">
-                            <i class="menu-icon tf-icons bx bx-home-circle"></i>
-                            <div data-i18n="Analytics">Dashboard</div>
-                        </a>
-                    </li>
-                    <li class="menu-header small text-uppercase">
-                        <span class="menu-header-text">Pages</span>
-                    </li>
-                    <li class="menu-item">
-                        <a href="{{ route('doctors.index') }}" class="menu-link">
-                            <i class="menu-icon tf-icons bx bx-dock-top"></i>
-                            <div data-i18n="Account Settings">Doctors</div>
-                        </a>
-                    </li>
-                    <li class="menu-item">
-                        <a href="{{ route('schedules.index') }}" class="menu-link">
-                            <i class="menu-icon tf-icons bx bx-dock-top"></i>
-                            <div data-i18n="Account Settings">Schedules</div>
-                        </a>
-                    </li>
-                    <li class="menu-item">
-                        <a href="{{ route('patients.index') }}" class="menu-link">
-                            <i class="menu-icon tf-icons bx bx-dock-top"></i>
-                            <div data-i18n="Account Settings">Patients</div>
-                        </a>
-                    </li>
-                    <li class="menu-item">
-                        <a href="{{ route('appointments.index') }}" class="menu-link">
-                            <i class="menu-icon tf-icons bx bx-dock-top"></i>
-                            <div data-i18n="Account Settings">Appointments</div>
-                        </a>
-                    </li>
+                    @if (auth()->user()->isAdmin())
+                        <li class="menu-item active">
+                            <a href="{{ route('admin.dashboard') }}" class="menu-link">
+                                <i class="menu-icon tf-icons bx bx-home-circle"></i>
+                                <div data-i18n="Analytics">Dashboard</div>
+                            </a>
+                        </li>
+                        <li class="menu-header small text-uppercase">
+                            <span class="menu-header-text">Pages</span>
+                        </li>
+                        <li class="menu-item">
+                            <a href="{{ route('clinics.index') }}" class="menu-link">
+                                <i class="menu-icon tf-icons bx bx-dock-top"></i>
+                                <div data-i18n="Account Settings">Clinics</div>
+                            </a>
+                        </li>
+                        {{-- <li class="menu-item">
+                            <a href="{{ route('reports.reports') }}" class="menu-link">
+                                <i class="menu-icon tf-icons bx bx-dock-top"></i>
+                                <div data-i18n="Account Settings">Reports</div>
+                            </a>
+                        </li> --}}
+                        <li class="menu-item">
+                            <a href="{{ route('doctors.index') }}" class="menu-link">
+                                <i class="menu-icon tf-icons bx bx-dock-top"></i>
+                                <div data-i18n="Account Settings">Doctors</div>
+                            </a>
+                        </li>
+                        <li class="menu-item">
+                            <a href="{{ route('schedules.index') }}" class="menu-link">
+                                <i class="menu-icon tf-icons bx bx-dock-top"></i>
+                                <div data-i18n="Account Settings">Schedules</div>
+                            </a>
+                        </li>
+                        <li class="menu-item">
+                            <a href="{{ route('patients.index') }}" class="menu-link">
+                                <i class="menu-icon tf-icons bx bx-dock-top"></i>
+                                <div data-i18n="Account Settings">Patients</div>
+                            </a>
+                        </li>
+                        <li class="menu-item">
+                            <a href="{{ route('appointments.index') }}" class="menu-link">
+                                <i class="menu-icon tf-icons bx bx-dock-top"></i>
+                                <div data-i18n="Account Settings">Appointments</div>
+                            </a>
+                        </li>
+                    @endif
+                    @if (auth()->user()->isAdmin() || auth()->user()->isReceptionist())
+                        <li class="menu-item">
+                            <a href="{{ route('admin.manual.book.form') }}" class="menu-link">
+                                <i class="menu-icon tf-icons bx bx-dock-top"></i>
+                                <div data-i18n="Account Settings">Manual Booking</div>
+                            </a>
+                        </li>
+                    @endif
                 </ul>
             </aside>
             <!-- / Menu -->

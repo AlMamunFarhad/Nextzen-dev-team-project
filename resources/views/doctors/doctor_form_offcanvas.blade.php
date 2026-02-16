@@ -9,7 +9,7 @@
             box-shadow: none !important;
         }
 
-        .invalid-feedback {
+        .invalid-consultation_feedback {
             display: block;
             color: #dc3545;
             margin-top: .25rem;
@@ -54,7 +54,7 @@
                             <span class="input-group-text"><i class="bx bx-user"></i></span>
                             <input type="text" name="name" class="form-control" id="name"
                                 placeholder="Dr. John Doe..." />
-                            <div class="invalid-feedback"></div>
+                            <div class="invalid-consultation_feedback"></div>
                         </div>
                     </div>
 
@@ -64,7 +64,7 @@
                             <span class="input-group-text"><i class="bx bx-user"></i></span>
                             <input type="text" name="specialization" class="form-control" id="specialization"
                                 placeholder="Cardiology..." />
-                            <div class="invalid-feedback"></div>
+                            <div class="invalid-consultation_feedback"></div>
                         </div>
                     </div>
 
@@ -74,18 +74,18 @@
                             <span class="input-group-text"><i class="bx bx-buildings"></i></span>
                             <input type="text" name="experience" id="experience" class="form-control"
                                 placeholder="5 yrs..." />
-                            <div class="invalid-feedback"></div>
+                            <div class="invalid-consultation_feedback"></div>
                         </div>
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label" for="fee">Consultation Fee</label>
+                        <label class="form-label" for="consultation_fee">Consultation consultation_fee</label>
                         <div class="input-group input-group-merge">
                             <span class="input-group-text"><i class="bx bx-dollar"></i></span>
-                            <input type="number" step="0.01" name="fee" id="fee" class="form-control"
+                            <input type="number" step="0.01" name="consultation_fee" id="consultation_fee" class="form-control"
                                 placeholder="100..." />
                             <span class="input-group-text">$</span>
-                            <div class="invalid-feedback"></div>
+                            <div class="invalid-consultation_feedback"></div>
                         </div>
                     </div>
 
@@ -95,7 +95,7 @@
                             <span class="input-group-text"><i class="bx bx-comment"></i></span>
                             <textarea name="bio" id="bio" class="form-control"
                                 placeholder="Briefly tell about your expertise and experience..."></textarea>
-                            <div class="invalid-feedback"></div>
+                            <div class="invalid-consultation_feedback"></div>
                         </div>
                     </div>
 
@@ -157,28 +157,28 @@ function showToast(message, type = 'success') {
 // HELPERS: clear/show errors
 // ===============================
 function clearErrors() {
-    form.querySelectorAll('.invalid-feedback').forEach(el => el.innerText = '');
+    form.querySelectorAll('.invalid-consultation_feedback').forEach(el => el.innerText = '');
     form.querySelectorAll('.is-invalid').forEach(el => el.classList.remove('is-invalid'));
 }
 
-function findFeedbackElementFor(input) {
+function findconsultation_feedbackElementFor(input) {
     const group = input.closest('.input-group') || input.parentElement;
     if (!group) return null;
-    return group.querySelector('.invalid-feedback') || input.nextElementSibling;
+    return group.querySelector('.invalid-consultation_feedback') || input.nextElementSibling;
 }
 
 function showErrors(errors) {
     Object.keys(errors).forEach(field => {
         const input = form.querySelector(`[name="${field}"]`);
         if (!input) return;
-        const feedback = findFeedbackElementFor(input);
-        if (feedback) feedback.innerText = errors[field][0];
+        const consultation_feedback = findconsultation_feedbackElementFor(input);
+        if (consultation_feedback) consultation_feedback.innerText = errors[field][0];
     });
 }
 
 form.querySelectorAll('input, textarea').forEach(input => {
     input.addEventListener('input', () => {
-        const fb = findFeedbackElementFor(input);
+        const fb = findconsultation_feedbackElementFor(input);
         if (fb) fb.innerText = '';
     });
 });
@@ -247,7 +247,7 @@ function openDoctorForm(doctor = null) {
         form.querySelector('[name="name"]').value = doctor.name ?? '';
         form.querySelector('[name="specialization"]').value = doctor.specialization ?? '';
         form.querySelector('[name="experience"]').value = doctor.experience ?? '';
-        form.querySelector('[name="fee"]').value = doctor.fee ?? '';
+        form.querySelector('[name="consultation_fee"]').value = doctor.consultation_fee ?? '';
         form.querySelector('[name="bio"]').value = doctor.bio ?? '';
 
         // Populate status checkbox and label

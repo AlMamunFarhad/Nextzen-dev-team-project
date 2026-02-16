@@ -60,6 +60,8 @@
                                             <li><a href="{{ route('doctor.dashboard') }}">Dashboard</a></li>
                                         @elseif ($role === 2)
                                             <li><a href="{{ route('patient.dashboard') }}">Dashboard</a></li>
+                                        @elseif ($role === 3)
+                                            <li><a href="{{ route('receptionist.dashboard') }}">Dashboard</a></li>
                                         @endif
                                     @else
                                         <li><a href="{{ route('login') }}">Log in</a></li>

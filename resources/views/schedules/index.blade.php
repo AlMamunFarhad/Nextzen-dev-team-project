@@ -197,7 +197,7 @@
 
         /* ---------- load ---------- */
         function loadSchedules() {
-            $.get('/schedules', res => {
+            $.get('/admin/schedules', res => {
                 let html = '';
                 (res.data || res).forEach(s => html += renderRow(s));
                 $('#scheduleTableBody').html(html);
@@ -229,7 +229,7 @@
                 $('input[name="start_time"]').val(to24Hour($('input[name="start_time"]').val()));
                 $('input[name="end_time"]').val(to24Hour($('input[name="end_time"]').val()));
 
-                let url = editId ? `/schedules/${editId}` : '/schedules';
+                let url = editId ? `/admin/schedules/${editId}` : '/admin/schedules';
                 let data = $(this).serialize() + (editId ? '&_method=PUT' : '');
 
                 $.post(url, data)
@@ -255,7 +255,7 @@
             /* ===== edit ===== */
             $(document).on('click', '.editBtn', function() {
                 editId = $(this).data('id');
-                $.get(`/schedules/${editId}`, res => {
+                $.get(`/admin/schedules/${editId}`, res => {
                     let d = res.data ?? res;
                     $('[name="doctor_id"]').val(d.doctor_id);
                     $('[name="day"]').val(d.day);
@@ -275,7 +275,7 @@
                 let id = $(this).data('id');
 
                 $.ajax({
-                    url: `/schedules/${id}`,
+                    url: `/admin/schedules/${id}`,
                     type: 'DELETE'
                 }).done(() => {
                     showToast('Schedule deleted successfully!', 'success');

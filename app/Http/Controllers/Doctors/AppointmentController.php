@@ -13,17 +13,44 @@ use Illuminate\Support\Facades\DB;
 
 class AppointmentController extends Controller
 {
+
     public function index()
     {
-        $doctors = Doctor::all();
-        $patients = Patient::with('user')->get();
+        $clinicId = auth()->user()->clinic_id;
+
+        $doctors = Doctor::where('clinic_id', $clinicId)->get();
+
+        $patients = Patient::with('user')
+            ->where('clinic_id', $clinicId)
+            ->get();
+
         $appointments = Appointment::with([
             'doctor.user',
             'patient.user',
             'slot',
-        ])->latest()->paginate(20);
-        return view('appointments.index', compact('doctors', 'patients', 'appointments'));
+        ])
+            ->where('clinic_id', $clinicId)
+            ->latest()
+            ->paginate(20);
+
+        return view('appointments.index', compact(
+            'doctors',
+            'patients',
+            'appointments'
+        ));
     }
+
+    // public function index()
+    // {
+    //     $doctors = Doctor::all();
+    //     $patients = Patient::with('user')->get();
+    //     $appointments = Appointment::with([
+    //         'doctor.user',
+    //         'patient.user',
+    //         'slot',
+    //     ])->latest()->paginate(20);
+    //     return view('appointments.index', compact('doctors', 'patients', 'appointments'));
+    // }
 
 
     public function data(Request $r)
@@ -75,6 +102,7 @@ class AppointmentController extends Controller
             $slot->save();
 
             $appointment = Appointment::create([
+                'clinic_id' => auth()->user()->clinic_id,
                 'doctor_id' => $data['doctor_id'],
                 'patient_id' => $data['patient_id'],
                 'slot_id' => $slot->id,
@@ -171,5 +199,48 @@ class AppointmentController extends Controller
                 'is_booked' => $slot->is_booked,
             ];
         }));
+    }
+
+    public function showManualForm()
+    {
+        $clinics = \App\Models\Clinic::all();
+        return view('appointments.manual', compact('clinics'));
+    }
+
+    public function manualBook(Request $r)
+    {
+        $data = $r->validate([
+            'clinic_id' => 'required|exists:clinics,id',
+            'doctor_id' => 'required|exists:doctors,id',
+            'patient_id' => 'required|exists:users,id',
+            'scheduled_at' => 'required|date_format:Y-m-d H:i:s',
+            'fee' => 'nullable|numeric',
+            'payment_status' => 'nullable|in:pending,paid,cancelled'
+        ]);
+
+        $doctor = Doctor::findOrFail($data['doctor_id']);
+        // check slot taken
+        $taken = Appointment::where('doctor_id', $doctor->id)
+            ->where('scheduled_at', $data['scheduled_at'])
+            ->whereNotIn('status', ['cancelled'])->exists();
+        if ($taken) {
+            return back()->withErrors(['scheduled_at' => 'Selected slot is already booked'])->withInput();
+        }
+
+        $fee = $data['fee'] ?? $doctor->consultation_fee ?? 0;
+        $commission = round(($doctor->commission_percent / 100) * $fee, 2);
+
+        Appointment::create([
+            'clinic_id' => $data['clinic_id'],
+            'doctor_id' => $doctor->id,
+            'patient_id' => $data['patient_id'],
+            'scheduled_at' => $data['scheduled_at'],
+            'fee' => $fee,
+            'commission_amount' => $commission,
+            'payment_status' => $data['payment_status'] ?? 'pending',
+            'status' => 'confirmed',
+        ]);
+
+        return redirect()->route('admin.dashboard')->with('success', 'Appointment created');
     }
 }

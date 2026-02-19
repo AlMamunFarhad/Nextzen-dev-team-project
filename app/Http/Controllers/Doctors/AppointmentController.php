@@ -52,6 +52,7 @@ class AppointmentController extends Controller
     /**
      * Store a newly created resource in storage.
      */
+
     public function store(StoreAppointmentRequest $r)
     {
         $data = $r->validated();
@@ -86,6 +87,9 @@ class AppointmentController extends Controller
             return response()->json($appointment->load('doctor.user', 'patient.user', 'slot'), 201);
         });
     }
+
+
+
 
     /**
      * Display the specified resource.

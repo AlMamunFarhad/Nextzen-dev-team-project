@@ -14,13 +14,12 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\VideoController;
 use Illuminate\Support\Facades\Route;
 
-<<<<<<< HEAD
 
 
 
 
-=======
->>>>>>> main
+
+
 Route::get('/', function () {
     return view('index');
 })->name('home');
@@ -43,7 +42,6 @@ Route::middleware('auth')->group(function () {
     Route::get('time-slots', [AppointmentController::class, 'getSlots'])
         ->name('appointments.slots');
     Route::resource('patients', PatientController::class);
-<<<<<<< HEAD
 
 
     // video call route
@@ -53,10 +51,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/video/{id}/ended', [VideoController::class, 'ended'])->name('video.ended');
 
 
-=======
     Route::get('patients-data', [PatientController::class, 'data'])
         ->name('patients.data');
->>>>>>> main
 });
 
 Route::get('patient/dashboard', [DashboardController::class, 'userdashboard'])->middleware('auth', 'patient')->name('patient.dashboard');
@@ -70,7 +66,7 @@ Route::get('admin/dashboard', [DashboardController::class, 'admindashboard'])->m
 Route::resource('clinics', ClinicController::class);
 
 // Contact Route
-
 Route::post('/contact-send', [ContactController::class, 'send'])->name('contact.send');
+
 
 

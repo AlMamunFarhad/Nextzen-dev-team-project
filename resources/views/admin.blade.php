@@ -91,11 +91,9 @@
                         </a>
                     </li>
                     <li class="menu-item">
-<<<<<<< HEAD
                         <a href="{{ route('clinics.index') }}" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-dock-top"></i>
                             <div data-i18n="Account Settings">Clinic</div>
-=======
                         <a href="{{ route('schedules.index') }}" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-dock-top"></i>
                             <div data-i18n="Account Settings">Schedules</div>
@@ -111,7 +109,6 @@
                         <a href="{{ route('appointments.index') }}" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-dock-top"></i>
                             <div data-i18n="Account Settings">Appointments</div>
->>>>>>> main
                         </a>
                     </li>
                 </ul>
@@ -141,3 +138,5 @@
     </div>
     <!-- / Layout wrapper -->
 </x-app-layout>
+
+

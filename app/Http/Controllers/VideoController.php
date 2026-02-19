@@ -21,12 +21,12 @@ class VideoController extends Controller
         }
 
         // Access check
-        if (
-            auth()->id() !== $appointment->patient->user_id &&
-            auth()->id() !== $appointment->doctor->user_id
-        ) {
-            abort(403);
-        }
+        // if (
+        //     auth()->id() !== $appointment->patient->user_id &&
+        //     auth()->id() !== $appointment->doctor->user_id
+        // ) {
+        //     abort(403);
+        // }
 
         // Time window (10 min before to 2 hour after)
         $start = \Carbon\Carbon::parse($appointment->appointment_date . ' ' . $appointment->appointment_time);

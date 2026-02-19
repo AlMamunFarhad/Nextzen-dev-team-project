@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="en">
 
 <head>
     <meta charset="utf-8">
@@ -17,15 +17,23 @@
     <link rel="stylesheet" href="{{ asset('assets/css/fontaswesome.min.css') }}">
     <!-- Owl Carousel -->
     <link rel="stylesheet" href="{{ asset('assets/css/owl.carousel.min.css') }}">
-    <!-- Nice Select  -->
-<<<<<<< HEAD
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css">
     <!-- Toastr CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
-=======
-    <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css">
->>>>>>> main
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css">
+
+     {{-- ✅ Multi Language Support --}}
+    <script>
+      function googleTranslateElementInit() {
+        new google.translate.TranslateElement({
+          pageLanguage: 'en',
+          autoDisplay: false,
+        }, 'google_translate_element');
+      }
+    </script>
+    <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+
     <!-- Style Css -->
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
     <!-- Responsive Css -->
@@ -36,6 +44,9 @@
 
 <body>
 
+       {{-- ✅ Multi Language Support --}}
+        <div id="google_translate_element" style="display:none;"></div>
+
     <!-- ===================================================================================
                                  Header Area Start
    =====================================================================================-->
@@ -45,7 +56,7 @@
                 <div class="header-main">
                     <div class="header-menu">
                         <div class="header-logo">
-                            <a href="index.html"><img src="assets/images/Logo.png" alt="logo-img" /></a>
+                            <a href="{{ route('home') }}"><img src="assets/images/Logo.png" alt="logo-img" /></a>
                         </div>
                         <div class="header-nav">
                             <nav>
@@ -120,6 +131,22 @@
                                         stroke-linejoin="round" />
                                 </svg> 1800-123-4567</a>
 
+
+
+
+                             {{-- ✅ Navbar-এ Dropdown বসাও --}}
+                            <nav>
+                                <select id="langSelect" onchange="translatePage(this.value)">
+                                    <option value="en">English</option>
+                                    <option value="bn">বাংলা</option>
+                                    <option value="ar">العربية</option>
+                                    <option value="hi">हिन्दी</option>
+                                    <option value="es">Español</option>
+                                    <option value="zh-CN">中文</option>
+                                </select>
+                            </nav>
+
+
                         </div>
                     </div>
                     <div class="mobile-menu">
@@ -148,6 +175,9 @@
                     <h1 class="heading1 mb-4">Book Doctor <br> <span>Appointments</span> <br> Instantly</h1>
                     <p class="font20 mb-4">Find trusted doctors, clinics, and hospitals near you. Online & in-clinic
                         consultations available 24/7.</p>
+
+
+
 
                     <div class="banner-form mb-4">
                         <form>
@@ -190,13 +220,13 @@
                         </div>
                         <div class="single-analysis">
                             <h3 class="heading3 d-flex align-items-center gap-1"><img src="assets/images/ratting.svg"
-                                    alt=""> 50K+</h3>
-                            <p class="font14">Verified Doctors</p>
+                                    alt=""> 4.8 </h3>
+                            <p class="font14">Average Rating</p>
                         </div>
                         <div class="single-analysis">
                             <h3 class="heading3 d-flex align-items-center gap-1"><img src="assets/images/time.svg"
-                                    alt=""> 50K+</h3>
-                            <p class="font14">Verified Doctors</p>
+                                    alt=""> 15 min</h3>
+                            <p class="font14">Avg. Response</p>
                         </div>
                     </div>
                 </div>
@@ -526,339 +556,239 @@
     </div>
 
     <section class="profile-area section-padding">
-        <div class="container">
-            <div class="card border-0 doctor-card mb-4">
-                <div
-                    class="card-body p-4 d-flex align-items-stretch justify-content-between gap-4 flex-wrap flex-md-nowrap">
-                    <div class="d-flex gap-2 flex-wrap flex-sm-nowrap">
-                        <div class="d-flex flex-column align-items-center">
-                            <img src="assets/images/doctors/doctor1.png" class="doctor-img" alt="">
-                            <div><span class="badge bg-success"><img src="assets/images/Verified.svg" alt="">
-                                    Verified</span></div>
-                        </div>
+      <div class="container">
+         <div class="card border-0 doctor-card mb-4">
+            <div class="card-body p-4 d-flex align-items-stretch justify-content-between gap-4 flex-wrap flex-md-nowrap">
+               <div class="d-flex gap-2 flex-wrap flex-sm-nowrap">
+                  <div class="d-flex flex-column align-items-center">
+                     <img src="assets/images/doctors/doctor1.png" class="doctor-img" alt="">
+                     <div><span class="badge bg-success"><img src="assets/images/Verified.svg" alt=""> Verified</span></div>
+                  </div>
+                  <div>
+                     <h4 class="heading4">Dr. Rajesh Kumar</h4>
+                     <p class="font16_bold mb-3">General Physician</p>
+                     <div class="d-flex align-items-center gap-3 flex-wrap flex-sm-nowrap"><span class="doctor-review-badge d-flex align-items-center gap-2"><i class="fa-solid fa-star"></i> 4.9 <span class="font14">(2847 reviews)</span></span> <a href="#" class="d-inline-flex align-items-center btn-outline-primary-light"><img src="assets/images/video-icon-primary.svg" alt="">Video Consult</a> </div>
+
+                     <div class="d-flex gap-2 mt-1 flex-wrap flex-md-nowrap">
                         <div>
-                            <h4 class="heading4">Dr. Rajesh Kumar</h4>
-                            <p class="font16_bold mb-3">General Physician</p>
-                            <div class="d-flex align-items-center gap-3 flex-wrap flex-sm-nowrap"><span
-                                    class="doctor-review-badge d-flex align-items-center gap-2"><i
-                                        class="fa-solid fa-star"></i> 4.9 <span class="font14">(2847
-                                        reviews)</span></span> <a href="#"
-                                    class="d-inline-flex align-items-center btn-outline-primary-light"><img
-                                        src="assets/images/video-icon-primary.svg" alt="">Video Consult</a>
-                            </div>
-
-                            <div class="d-flex gap-2 mt-1 flex-wrap flex-md-nowrap">
-                                <div>
-                                    <p class="font14 mb-2 mt-2 d-flex align-items-center gap-2"><svg width="16"
-                                            height="16" viewBox="0 0 16 16" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M14.28 7.28137C14.3993 7.22872 14.5006 7.14221 14.5713 7.03257C14.6419 6.92293 14.6789 6.79496 14.6775 6.66453C14.6762 6.53409 14.6366 6.40692 14.5637 6.29876C14.4908 6.1906 14.3877 6.10621 14.2673 6.05603L8.55332 3.45337C8.37961 3.37413 8.19091 3.33313 7.99999 3.33313C7.80906 3.33313 7.62036 3.37413 7.44665 3.45337L1.73332 6.05337C1.61463 6.10535 1.51366 6.19079 1.44277 6.29924C1.37187 6.4077 1.33411 6.53446 1.33411 6.66403C1.33411 6.79361 1.37187 6.92037 1.44277 7.02882C1.51366 7.13728 1.61463 7.22272 1.73332 7.2747L7.44665 9.88003C7.62036 9.95927 7.80906 10.0003 7.99999 10.0003C8.19091 10.0003 8.37961 9.95927 8.55332 9.88003L14.28 7.28137Z"
-                                                stroke="#0DA2E7" stroke-width="1.33333" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                            <path d="M14.6667 6.66663V10.6666" stroke="#0DA2E7" stroke-width="1.33333"
-                                                stroke-linecap="round" stroke-linejoin="round" />
-                                            <path
-                                                d="M4 8.33337V10.6667C4 11.1971 4.42143 11.7058 5.17157 12.0809C5.92172 12.456 6.93913 12.6667 8 12.6667C9.06087 12.6667 10.0783 12.456 10.8284 12.0809C11.5786 11.7058 12 11.1971 12 10.6667V8.33337"
-                                                stroke="#0DA2E7" stroke-width="1.33333" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                        </svg>
-                                        MBBS, MD - General Medicine
-                                    </p>
-                                    <p class="font14 mt-2 d-flex align-items-center gap-2">
-                                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M3.33334 5.33337L7.33334 9.33337" stroke="#0DA2E7"
-                                                stroke-width="1.33333" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                            <path d="M2.66666 9.33337L6.66666 5.33337L7.99999 3.33337" stroke="#0DA2E7"
-                                                stroke-width="1.33333" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                            <path d="M1.33334 3.33337H9.33334" stroke="#0DA2E7" stroke-width="1.33333"
-                                                stroke-linecap="round" stroke-linejoin="round" />
-                                            <path d="M4.66666 1.33337H5.33332" stroke="#0DA2E7" stroke-width="1.33333"
-                                                stroke-linecap="round" stroke-linejoin="round" />
-                                            <path d="M14.6667 14.6667L11.3333 8L8 14.6667" stroke="#0DA2E7"
-                                                stroke-width="1.33333" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                            <path d="M9.33334 12H13.3333" stroke="#0DA2E7" stroke-width="1.33333"
-                                                stroke-linecap="round" stroke-linejoin="round" />
-                                        </svg>
-                                        English, Hindi, Kannada
-                                    </p>
-                                </div>
-
-                                <div>
-                                    <p class="font14 mb-2 mt-2 d-flex align-items-center gap-2"><svg width="16"
-                                            height="16" viewBox="0 0 16 16" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M10.318 8.59338L11.328 14.2774C11.3393 14.3443 11.3299 14.4131 11.3011 14.4746C11.2723 14.536 11.2253 14.5872 11.1666 14.6212C11.1079 14.6553 11.0402 14.6706 10.9726 14.6652C10.9049 14.6597 10.8405 14.6338 10.788 14.5907L8.40135 12.7994C8.28613 12.7133 8.14617 12.6668 8.00235 12.6668C7.85853 12.6668 7.71857 12.7133 7.60335 12.7994L5.21268 14.5901C5.16023 14.633 5.09593 14.6589 5.02835 14.6644C4.96077 14.6699 4.89313 14.6546 4.83446 14.6206C4.77579 14.5867 4.72887 14.5356 4.69996 14.4743C4.67106 14.4129 4.66154 14.3443 4.67268 14.2774L5.68202 8.59338"
-                                                stroke="#0DA2E7" stroke-width="1.33333" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                            <path
-                                                d="M8 9.33337C10.2091 9.33337 12 7.54251 12 5.33337C12 3.12424 10.2091 1.33337 8 1.33337C5.79086 1.33337 4 3.12424 4 5.33337C4 7.54251 5.79086 9.33337 8 9.33337Z"
-                                                stroke="#0DA2E7" stroke-width="1.33333" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                        </svg>
-                                        15+ Years Experience
-                                    </p>
-                                    <a href="#" class="font14 mt-2 d-flex align-items-center gap-2">
-                                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M13.3334 6.66671C13.3334 9.99537 9.64069 13.462 8.40069 14.5327C8.28517 14.6196 8.14455 14.6665 8.00002 14.6665C7.85549 14.6665 7.71487 14.6196 7.59935 14.5327C6.35935 13.462 2.66669 9.99537 2.66669 6.66671C2.66669 5.25222 3.22859 3.89567 4.22878 2.89547C5.22898 1.89528 6.58553 1.33337 8.00002 1.33337C9.41451 1.33337 10.7711 1.89528 11.7713 2.89547C12.7715 3.89567 13.3334 5.25222 13.3334 6.66671Z"
-                                                stroke="#0DA2E7" stroke-width="1.33333" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                            <path
-                                                d="M8 8.66663C9.10457 8.66663 10 7.7712 10 6.66663C10 5.56206 9.10457 4.66663 8 4.66663C6.89543 4.66663 6 5.56206 6 6.66663C6 7.7712 6.89543 8.66663 8 8.66663Z"
-                                                stroke="#0DA2E7" stroke-width="1.33333" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                        </svg>
-                                        Koramangala, Bangalore
-                                    </a>
-                                </div>
-
-                            </div>
-
-
+                           <p class="font14 mb-2 mt-2 d-flex align-items-center gap-2"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M14.28 7.28137C14.3993 7.22872 14.5006 7.14221 14.5713 7.03257C14.6419 6.92293 14.6789 6.79496 14.6775 6.66453C14.6762 6.53409 14.6366 6.40692 14.5637 6.29876C14.4908 6.1906 14.3877 6.10621 14.2673 6.05603L8.55332 3.45337C8.37961 3.37413 8.19091 3.33313 7.99999 3.33313C7.80906 3.33313 7.62036 3.37413 7.44665 3.45337L1.73332 6.05337C1.61463 6.10535 1.51366 6.19079 1.44277 6.29924C1.37187 6.4077 1.33411 6.53446 1.33411 6.66403C1.33411 6.79361 1.37187 6.92037 1.44277 7.02882C1.51366 7.13728 1.61463 7.22272 1.73332 7.2747L7.44665 9.88003C7.62036 9.95927 7.80906 10.0003 7.99999 10.0003C8.19091 10.0003 8.37961 9.95927 8.55332 9.88003L14.28 7.28137Z" stroke="#0DA2E7" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"></path>
+                              <path d="M14.6667 6.66663V10.6666" stroke="#0DA2E7" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"></path>
+                              <path d="M4 8.33337V10.6667C4 11.1971 4.42143 11.7058 5.17157 12.0809C5.92172 12.456 6.93913 12.6667 8 12.6667C9.06087 12.6667 10.0783 12.456 10.8284 12.0809C11.5786 11.7058 12 11.1971 12 10.6667V8.33337" stroke="#0DA2E7" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"></path>
+                              </svg>
+                              MBBS, MD - General Medicine
+                           </p>
+                           <p class="font14 mt-2 d-flex align-items-center gap-2">
+                              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M3.33334 5.33337L7.33334 9.33337" stroke="#0DA2E7" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"></path>
+                              <path d="M2.66666 9.33337L6.66666 5.33337L7.99999 3.33337" stroke="#0DA2E7" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"></path>
+                              <path d="M1.33334 3.33337H9.33334" stroke="#0DA2E7" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"></path>
+                              <path d="M4.66666 1.33337H5.33332" stroke="#0DA2E7" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"></path>
+                              <path d="M14.6667 14.6667L11.3333 8L8 14.6667" stroke="#0DA2E7" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"></path>
+                              <path d="M9.33334 12H13.3333" stroke="#0DA2E7" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"></path>
+                              </svg>
+                              English, Hindi, Kannada
+                           </p>
                         </div>
-                    </div>
-                    <div
-                        class="text-start text-md-end d-flex flex-column justify-content-between border-md-start ps-4">
+
                         <div>
-                            <p class="font14">Consultation Fee</p>
-                            <p class="font20 mb-3 mb-md-0">₹500</p>
+                           <p class="font14 mb-2 mt-2 d-flex align-items-center gap-2"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M10.318 8.59338L11.328 14.2774C11.3393 14.3443 11.3299 14.4131 11.3011 14.4746C11.2723 14.536 11.2253 14.5872 11.1666 14.6212C11.1079 14.6553 11.0402 14.6706 10.9726 14.6652C10.9049 14.6597 10.8405 14.6338 10.788 14.5907L8.40135 12.7994C8.28613 12.7133 8.14617 12.6668 8.00235 12.6668C7.85853 12.6668 7.71857 12.7133 7.60335 12.7994L5.21268 14.5901C5.16023 14.633 5.09593 14.6589 5.02835 14.6644C4.96077 14.6699 4.89313 14.6546 4.83446 14.6206C4.77579 14.5867 4.72887 14.5356 4.69996 14.4743C4.67106 14.4129 4.66154 14.3443 4.67268 14.2774L5.68202 8.59338" stroke="#0DA2E7" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"></path>
+                              <path d="M8 9.33337C10.2091 9.33337 12 7.54251 12 5.33337C12 3.12424 10.2091 1.33337 8 1.33337C5.79086 1.33337 4 3.12424 4 5.33337C4 7.54251 5.79086 9.33337 8 9.33337Z" stroke="#0DA2E7" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"></path>
+                              </svg>
+                              15+ Years Experience
+                           </p>
+                           <a href="#" class="font14 mt-2 d-flex align-items-center gap-2">
+                              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M13.3334 6.66671C13.3334 9.99537 9.64069 13.462 8.40069 14.5327C8.28517 14.6196 8.14455 14.6665 8.00002 14.6665C7.85549 14.6665 7.71487 14.6196 7.59935 14.5327C6.35935 13.462 2.66669 9.99537 2.66669 6.66671C2.66669 5.25222 3.22859 3.89567 4.22878 2.89547C5.22898 1.89528 6.58553 1.33337 8.00002 1.33337C9.41451 1.33337 10.7711 1.89528 11.7713 2.89547C12.7715 3.89567 13.3334 5.25222 13.3334 6.66671Z" stroke="#0DA2E7" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"></path>
+                              <path d="M8 8.66663C9.10457 8.66663 10 7.7712 10 6.66663C10 5.56206 9.10457 4.66663 8 4.66663C6.89543 4.66663 6 5.56206 6 6.66663C6 7.7712 6.89543 8.66663 8 8.66663Z" stroke="#0DA2E7" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"></path>
+                              </svg>
+                              Koramangala, Bangalore
+                           </a>
                         </div>
-                        <a class="custom_btn mt-auto" href="#"><svg width="16" height="16"
-                                viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M5.33337 1.33337V4.00004" stroke="white" stroke-width="1.33333"
-                                    stroke-linecap="round" stroke-linejoin="round" />
-                                <path d="M10.6666 1.33337V4.00004" stroke="white" stroke-width="1.33333"
-                                    stroke-linecap="round" stroke-linejoin="round" />
-                                <path
-                                    d="M12.6667 2.66663H3.33333C2.59695 2.66663 2 3.26358 2 3.99996V13.3333C2 14.0697 2.59695 14.6666 3.33333 14.6666H12.6667C13.403 14.6666 14 14.0697 14 13.3333V3.99996C14 3.26358 13.403 2.66663 12.6667 2.66663Z"
-                                    stroke="white" stroke-width="1.33333" stroke-linecap="round"
-                                    stroke-linejoin="round" />
-                                <path d="M2 6.66663H14" stroke="white" stroke-width="1.33333" stroke-linecap="round"
-                                    stroke-linejoin="round" />
-                            </svg>
-                            Book Appointment
-                        </a>
+
+                     </div>
+
+
+                  </div>
+               </div>
+               <div class="text-start text-md-end d-flex flex-column justify-content-between border-md-start ps-4">
+                  <div>
+                     <p class="font14">Consultation Fee</p>
+                     <p class="font20 mb-3 mb-md-0">₹500</p>
+                  </div>
+                  <a class="custom_btn mt-auto" href="#"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                     <path d="M5.33337 1.33337V4.00004" stroke="white" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"></path>
+                     <path d="M10.6666 1.33337V4.00004" stroke="white" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"></path>
+                     <path d="M12.6667 2.66663H3.33333C2.59695 2.66663 2 3.26358 2 3.99996V13.3333C2 14.0697 2.59695 14.6666 3.33333 14.6666H12.6667C13.403 14.6666 14 14.0697 14 13.3333V3.99996C14 3.26358 13.403 2.66663 12.6667 2.66663Z" stroke="white" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"></path>
+                     <path d="M2 6.66663H14" stroke="white" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"></path>
+                     </svg>
+                     Book Appointment
+                  </a>
+                  <div>
+                     <a href="#" class="btn-outline mt-3"><img src="assets/images/online-video.svg" alt=""> Call Clinic</a>
+                  </div>
+               </div>
+            </div>
+         </div>
+
+
+         <div class="row g-4">
+
+            <!-- LEFT COLUMN -->
+            <div class="col-lg-8">
+
+               <!-- Clinic Card -->
+               <div class="card border-0 mb-4 clinic-card">
+                  <div class="card-body p-4">
+                     <h6 class="font18px text-dark mb-3 fw-bold">Clinic &amp; Hospital</h6>
+                     <div class="d-flex gap-3 flex-wrap flex-sm-nowrap">
+                        <img src="assets/images/Clinic.png" class="clinic-img" alt="">
                         <div>
-                            <a href="#" class="btn-outline mt-3"><img src="assets/images/online-video.svg"
-                                    alt=""> Call Clinic</a>
+                           <h6 class="font16 text-dark fw-bold mb-1">Apollo Clinic</h6>
+                           <a href="#" class="font14 mb-2"><i class="fa-solid fa-location-dot"></i> &nbsp; 123, 4th Cross, Koramangala, Bangalore - 56003</a>
+                           <p class="font14"><i class="fa-regular fa-clock"></i> &nbsp; Mon - Sat: 9:00 AM - 6:00 PM</p>
                         </div>
-                    </div>
-                </div>
+                     </div>
+                  </div>
+               </div>
+
+               <!-- Time Slots -->
+               <div class="card border-0 mb-4">
+                  <div class="card-body p-4">
+                     <h6 class="font18px fw-bold text-dark mb-3">Available Time Slots - Today</h6>
+                     <div class="d-flex flex-wrap gap-2">
+                        <span class="time-slot active">9:00 AM</span>
+                        <span class="time-slot disabled">9:30 AM</span>
+                        <span class="time-slot active">10:00 AM</span>
+                        <span class="time-slot active">10:30 AM</span>
+                        <span class="time-slot disabled">11:00 AM</span>
+                        <span class="time-slot active">11:30 AM</span>
+                        <span class="time-slot active">2:00 PM</span>
+                        <span class="time-slot active">2:30 PM</span>
+                        <span class="time-slot disabled">3:00 PM</span>
+                        <span class="time-slot active">3:30 PM</span>
+                     </div>
+                  </div>
+               </div>
+
+               <!-- Reviews -->
+               <div class="card border-0">
+                   <div class="card-body p-4">
+                     <h6 class="font18px fw-bold text-dark mb-3">Patient Review</h6>
+
+                     <div class="review-item">
+                        <div class="avatar">A</div>
+                        <div class="flex-grow-1">
+                           <div class="d-flex justify-content-between">
+                           <h6 class="mb-0 font16 fw-bold text-dark">Amit Patel</h6>
+                           <div class="stars">
+                              <span><i class="fa-solid fa-star"></i></span>
+                              <span><i class="fa-solid fa-star"></i></span>
+                              <span><i class="fa-solid fa-star"></i></span>
+                              <span><i class="fa-solid fa-star"></i></span>
+                              <span><i class="fa-solid fa-star"></i></span>
+                           </div>
+                           </div>
+                           <small class="text-muted">2 days ago</small>
+                           <p class="mt-2 font14">Excellent doctor! Very patient and thorough in examination. Explained everything clearly. Highly recommended for anyone looking for
+      genuine and caring physician.</p>
+                        </div>
+                     </div>
+                     <hr>
+
+                     <div class="review-item">
+                        <div class="avatar">S</div>
+                        <div class="flex-grow-1">
+                           <div class="d-flex justify-content-between">
+                           <h6 class="mb-0 font16 fw-bold text-dark">Sneha Gupta</h6>
+                           <div class="stars">
+                              <span><i class="fa-solid fa-star"></i></span>
+                              <span><i class="fa-solid fa-star"></i></span>
+                              <span><i class="fa-solid fa-star"></i></span>
+                              <span><i class="fa-solid fa-star"></i></span>
+                           </div>
+                           </div>
+                           <small class="text-muted">1 week ago</small>
+                           <p class="mt-2 font14">Excellent doctor! Very patient and thorough in examination.</p>
+                        </div>
+                     </div>
+                     <hr>
+
+                     <div class="review-item">
+                        <div class="avatar">V</div>
+                        <div class="flex-grow-1">
+                           <div class="d-flex justify-content-between">
+                           <h6 class="mb-0 font16 fw-bold text-dark">Vikram Singh</h6>
+                           <div class="stars">
+                              <span><i class="fa-solid fa-star"></i></span>
+                              <span><i class="fa-solid fa-star"></i></span>
+                              <span><i class="fa-solid fa-star"></i></span>
+                           </div>
+                           </div>
+                           <small class="text-muted">2 days ago</small>
+                           <p class="mt-2 font14">Excellent doctor! Very patient and thorough in examination. Explained everything clearly. Highly recommended for anyone looking for
+      genuine and caring physician.</p>
+                        </div>
+                     </div>
+                   </div>
+               </div>
             </div>
 
+            <!-- RIGHT COLUMN -->
+            <div class="col-lg-4">
 
-<<<<<<< HEAD
                <!-- Quick Actions -->
                <div class="card primary-bg-light border-0 mb-4">
                   <div class="card-body p-4">
                      <h6 class="font18px fw-bold text-dark mb-3">Quick Actions</h6>
-                     <a class="custom_btn w-100 mb-2" href="{{ route('video.call') }}">
+                     <a class="custom_btn w-100 mb-2" href="#">
                         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M10.6666 8.66676L14.1486 10.9881C14.1988 11.0215 14.2571 11.0407 14.3174 11.0435C14.3776 11.0464 14.4375 11.0329 14.4906 11.0045C14.5438 10.976 14.5882 10.9337 14.6192 10.8819C14.6502 10.8302 14.6666 10.7711 14.6666 10.7108V5.24676C14.6666 5.18811 14.6512 5.13049 14.6218 5.07973C14.5924 5.02896 14.5502 4.98684 14.4993 4.95763C14.4485 4.92841 14.3908 4.91313 14.3322 4.91333C14.2735 4.91353 14.2159 4.9292 14.1653 4.95876L10.6666 7.0001" stroke="white" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round" />
-                        <path d="M9.33337 4H2.66671C1.93033 4 1.33337 4.59695 1.33337 5.33333V10.6667C1.33337 11.403 1.93033 12 2.66671 12H9.33337C10.0698 12 10.6667 11.403 10.6667 10.6667V5.33333C10.6667 4.59695 10.0698 4 9.33337 4Z" stroke="white" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M10.6666 8.66676L14.1486 10.9881C14.1988 11.0215 14.2571 11.0407 14.3174 11.0435C14.3776 11.0464 14.4375 11.0329 14.4906 11.0045C14.5438 10.976 14.5882 10.9337 14.6192 10.8819C14.6502 10.8302 14.6666 10.7711 14.6666 10.7108V5.24676C14.6666 5.18811 14.6512 5.13049 14.6218 5.07973C14.5924 5.02896 14.5502 4.98684 14.4993 4.95763C14.4485 4.92841 14.3908 4.91313 14.3322 4.91333C14.2735 4.91353 14.2159 4.9292 14.1653 4.95876L10.6666 7.0001" stroke="white" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"></path>
+                        <path d="M9.33337 4H2.66671C1.93033 4 1.33337 4.59695 1.33337 5.33333V10.6667C1.33337 11.403 1.93033 12 2.66671 12H9.33337C10.0698 12 10.6667 11.403 10.6667 10.6667V5.33333C10.6667 4.59695 10.0698 4 9.33337 4Z" stroke="white" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"></path>
                         </svg>
                         Start Video Consultation
                      </a>
                      <button class="btn btn-outline-secondary w-100 mb-2">
                         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M5.33337 1.33325V3.99992" stroke="#1D2630" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round" />
-                        <path d="M10.6666 1.33325V3.99992" stroke="#1D2630" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round" />
-                        <path d="M12.6667 2.66675H3.33333C2.59695 2.66675 2 3.2637 2 4.00008V13.3334C2 14.0698 2.59695 14.6667 3.33333 14.6667H12.6667C13.403 14.6667 14 14.0698 14 13.3334V4.00008C14 3.2637 13.403 2.66675 12.6667 2.66675Z" stroke="#1D2630" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round" />
-                        <path d="M2 6.66675H14" stroke="#1D2630" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M5.33337 1.33325V3.99992" stroke="#1D2630" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"></path>
+                        <path d="M10.6666 1.33325V3.99992" stroke="#1D2630" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"></path>
+                        <path d="M12.6667 2.66675H3.33333C2.59695 2.66675 2 3.2637 2 4.00008V13.3334C2 14.0698 2.59695 14.6667 3.33333 14.6667H12.6667C13.403 14.6667 14 14.0698 14 13.3334V4.00008C14 3.2637 13.403 2.66675 12.6667 2.66675Z" stroke="#1D2630" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"></path>
+                        <path d="M2 6.66675H14" stroke="#1D2630" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"></path>
                         </svg>
                         Schedule for Later
                      </button>
                      <button class="btn btn-outline-secondary w-100">
                         <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M13.9254 10.6135V12.6135C13.9261 12.7991 13.8881 12.9829 13.8137 13.153C13.7393 13.3232 13.6302 13.4759 13.4934 13.6014C13.3566 13.7269 13.1951 13.8225 13.0192 13.8819C12.8433 13.9414 12.657 13.9635 12.472 13.9468C10.4206 13.7239 8.45004 13.0229 6.7187 11.9001C5.10792 10.8766 3.74226 9.51093 2.7187 7.90015C1.59202 6.16095 0.890866 4.18081 0.672037 2.12015C0.655377 1.93579 0.677287 1.74999 0.736371 1.57456C0.795454 1.39914 0.890418 1.23794 1.01521 1.10123C1.14001 0.964515 1.29191 0.855286 1.46123 0.780494C1.63056 0.705702 1.8136 0.666987 1.9987 0.666813H3.9987C4.32224 0.663628 4.6359 0.778198 4.88121 0.989168C5.12652 1.20014 5.28676 1.49311 5.33204 1.81348C5.41645 2.45352 5.573 3.08196 5.7987 3.68681C5.8884 3.92543 5.90781 4.18476 5.85464 4.43407C5.80147 4.68338 5.67795 4.91222 5.4987 5.09348L4.65204 5.94015C5.60107 7.60918 6.98301 8.99111 8.65204 9.94015L9.4987 9.09348C9.67996 8.91424 9.90881 8.79071 10.1581 8.73754C10.4074 8.68437 10.6668 8.70378 10.9054 8.79348C11.5102 9.01918 12.1387 9.17573 12.7787 9.26015C13.1025 9.30583 13.3983 9.46895 13.6097 9.71848C13.8211 9.968 13.9335 10.2865 13.9254 10.6135Z" stroke="#1D2630" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M13.9254 10.6135V12.6135C13.9261 12.7991 13.8881 12.9829 13.8137 13.153C13.7393 13.3232 13.6302 13.4759 13.4934 13.6014C13.3566 13.7269 13.1951 13.8225 13.0192 13.8819C12.8433 13.9414 12.657 13.9635 12.472 13.9468C10.4206 13.7239 8.45004 13.0229 6.7187 11.9001C5.10792 10.8766 3.74226 9.51093 2.7187 7.90015C1.59202 6.16095 0.890866 4.18081 0.672037 2.12015C0.655377 1.93579 0.677287 1.74999 0.736371 1.57456C0.795454 1.39914 0.890418 1.23794 1.01521 1.10123C1.14001 0.964515 1.29191 0.855286 1.46123 0.780494C1.63056 0.705702 1.8136 0.666987 1.9987 0.666813H3.9987C4.32224 0.663628 4.6359 0.778198 4.88121 0.989168C5.12652 1.20014 5.28676 1.49311 5.33204 1.81348C5.41645 2.45352 5.573 3.08196 5.7987 3.68681C5.8884 3.92543 5.90781 4.18476 5.85464 4.43407C5.80147 4.68338 5.67795 4.91222 5.4987 5.09348L4.65204 5.94015C5.60107 7.60918 6.98301 8.99111 8.65204 9.94015L9.4987 9.09348C9.67996 8.91424 9.90881 8.79071 10.1581 8.73754C10.4074 8.68437 10.6668 8.70378 10.9054 8.79348C11.5102 9.01918 12.1387 9.17573 12.7787 9.26015C13.1025 9.30583 13.3983 9.46895 13.6097 9.71848C13.8211 9.968 13.9335 10.2865 13.9254 10.6135Z" stroke="#1D2630" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"></path>
                         </svg>
-=======
-            <div class="row g-4">
->>>>>>> main
 
-                <!-- LEFT COLUMN -->
-                <div class="col-lg-8">
+                        Request Callback
+                     </button>
+                  </div>
+               </div>
 
-                    <!-- Clinic Card -->
-                    <div class="card border-0 mb-4 clinic-card">
-                        <div class="card-body p-4">
-                            <h6 class="font18px text-dark mb-3 fw-bold">Clinic & Hospital</h6>
-                            <div class="d-flex gap-3 flex-wrap flex-sm-nowrap">
-                                <img src="assets/images/Clinic.png" class="clinic-img" alt="">
-                                <div>
-                                    <h6 class="font16 text-dark fw-bold mb-1">Apollo Clinic</h6>
-                                    <a href="#" class="font14 mb-2"><i class="fa-solid fa-location-dot"></i>
-                                        &nbsp; 123, 4th Cross, Koramangala, Bangalore - 56003</a>
-                                    <p class="font14"><i class="fa-regular fa-clock"></i> &nbsp; Mon - Sat: 9:00 AM -
-                                        6:00 PM</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+               <!-- Services -->
+               <div class="card border-0">
+                  <div class="card-body p-4">
+                     <h6 class="font18px fw-bold text-dark mb-3">Services Offered</h6>
+                     <div class="d-flex flex-wrap gap-2">
+                        <span class="service-badge">General Check-up</span>
+                        <span class="service-badge">Fever Treatment</span>
+                        <span class="service-badge">Diabetes Care</span>
+                        <span class="service-badge">Blood Pressure</span>
+                        <span class="service-badge">Health Screenings</span>
+                        <span class="service-badge">Vaccinations</span>
+                     </div>
+                  </div>
+               </div>
 
-                    <!-- Time Slots -->
-                    <div class="card border-0 mb-4">
-                        <div class="card-body p-4">
-                            <h6 class="font18px fw-bold text-dark mb-3">Available Time Slots - Today</h6>
-                            <div class="d-flex flex-wrap gap-2">
-                                <span class="time-slot active">9:00 AM</span>
-                                <span class="time-slot disabled">9:30 AM</span>
-                                <span class="time-slot active">10:00 AM</span>
-                                <span class="time-slot active">10:30 AM</span>
-                                <span class="time-slot disabled">11:00 AM</span>
-                                <span class="time-slot active">11:30 AM</span>
-                                <span class="time-slot active">2:00 PM</span>
-                                <span class="time-slot active">2:30 PM</span>
-                                <span class="time-slot disabled">3:00 PM</span>
-                                <span class="time-slot active">3:30 PM</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Reviews -->
-                    <div class="card border-0">
-                        <div class="card-body p-4">
-                            <h6 class="font18px fw-bold text-dark mb-3">Patient Review</h6>
-
-                            <div class="review-item">
-                                <div class="avatar">A</div>
-                                <div class="flex-grow-1">
-                                    <div class="d-flex justify-content-between">
-                                        <h6 class="mb-0 font16 fw-bold text-dark">Amit Patel</h6>
-                                        <div class="stars">
-                                            <span><i class="fa-solid fa-star"></i></span>
-                                            <span><i class="fa-solid fa-star"></i></span>
-                                            <span><i class="fa-solid fa-star"></i></span>
-                                            <span><i class="fa-solid fa-star"></i></span>
-                                            <span><i class="fa-solid fa-star"></i></span>
-                                        </div>
-                                    </div>
-                                    <small class="text-muted">2 days ago</small>
-                                    <p class="mt-2 font14">Excellent doctor! Very patient and thorough in examination.
-                                        Explained everything clearly. Highly recommended for anyone looking for
-                                        genuine and caring physician.</p>
-                                </div>
-                            </div>
-                            <hr>
-
-                            <div class="review-item">
-                                <div class="avatar">S</div>
-                                <div class="flex-grow-1">
-                                    <div class="d-flex justify-content-between">
-                                        <h6 class="mb-0 font16 fw-bold text-dark">Sneha Gupta</h6>
-                                        <div class="stars">
-                                            <span><i class="fa-solid fa-star"></i></span>
-                                            <span><i class="fa-solid fa-star"></i></span>
-                                            <span><i class="fa-solid fa-star"></i></span>
-                                            <span><i class="fa-solid fa-star"></i></span>
-                                        </div>
-                                    </div>
-                                    <small class="text-muted">1 week ago</small>
-                                    <p class="mt-2 font14">Excellent doctor! Very patient and thorough in examination.
-                                    </p>
-                                </div>
-                            </div>
-                            <hr>
-
-                            <div class="review-item">
-                                <div class="avatar">V</div>
-                                <div class="flex-grow-1">
-                                    <div class="d-flex justify-content-between">
-                                        <h6 class="mb-0 font16 fw-bold text-dark">Vikram Singh</h6>
-                                        <div class="stars">
-                                            <span><i class="fa-solid fa-star"></i></span>
-                                            <span><i class="fa-solid fa-star"></i></span>
-                                            <span><i class="fa-solid fa-star"></i></span>
-                                        </div>
-                                    </div>
-                                    <small class="text-muted">2 days ago</small>
-                                    <p class="mt-2 font14">Excellent doctor! Very patient and thorough in examination.
-                                        Explained everything clearly. Highly recommended for anyone looking for
-                                        genuine and caring physician.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- RIGHT COLUMN -->
-                <div class="col-lg-4">
-
-                    <!-- Quick Actions -->
-                    <div class="card primary-bg-light border-0 mb-4">
-                        <div class="card-body p-4">
-                            <h6 class="font18px fw-bold text-dark mb-3">Quick Actions</h6>
-                            <a class="custom_btn w-100 mb-2" href="#">
-                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M10.6666 8.66676L14.1486 10.9881C14.1988 11.0215 14.2571 11.0407 14.3174 11.0435C14.3776 11.0464 14.4375 11.0329 14.4906 11.0045C14.5438 10.976 14.5882 10.9337 14.6192 10.8819C14.6502 10.8302 14.6666 10.7711 14.6666 10.7108V5.24676C14.6666 5.18811 14.6512 5.13049 14.6218 5.07973C14.5924 5.02896 14.5502 4.98684 14.4993 4.95763C14.4485 4.92841 14.3908 4.91313 14.3322 4.91333C14.2735 4.91353 14.2159 4.9292 14.1653 4.95876L10.6666 7.0001"
-                                        stroke="white" stroke-width="1.33333" stroke-linecap="round"
-                                        stroke-linejoin="round" />
-                                    <path
-                                        d="M9.33337 4H2.66671C1.93033 4 1.33337 4.59695 1.33337 5.33333V10.6667C1.33337 11.403 1.93033 12 2.66671 12H9.33337C10.0698 12 10.6667 11.403 10.6667 10.6667V5.33333C10.6667 4.59695 10.0698 4 9.33337 4Z"
-                                        stroke="white" stroke-width="1.33333" stroke-linecap="round"
-                                        stroke-linejoin="round" />
-                                </svg>
-                                Start Video Consultation
-                            </a>
-                            <button class="btn btn-outline-secondary w-100 mb-2">
-                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M5.33337 1.33325V3.99992" stroke="#1D2630" stroke-width="1.33333"
-                                        stroke-linecap="round" stroke-linejoin="round" />
-                                    <path d="M10.6666 1.33325V3.99992" stroke="#1D2630" stroke-width="1.33333"
-                                        stroke-linecap="round" stroke-linejoin="round" />
-                                    <path
-                                        d="M12.6667 2.66675H3.33333C2.59695 2.66675 2 3.2637 2 4.00008V13.3334C2 14.0698 2.59695 14.6667 3.33333 14.6667H12.6667C13.403 14.6667 14 14.0698 14 13.3334V4.00008C14 3.2637 13.403 2.66675 12.6667 2.66675Z"
-                                        stroke="#1D2630" stroke-width="1.33333" stroke-linecap="round"
-                                        stroke-linejoin="round" />
-                                    <path d="M2 6.66675H14" stroke="#1D2630" stroke-width="1.33333"
-                                        stroke-linecap="round" stroke-linejoin="round" />
-                                </svg>
-                                Schedule for Later
-                            </button>
-                            <button class="btn btn-outline-secondary w-100">
-                                <svg width="15" height="15" viewBox="0 0 15 15" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M13.9254 10.6135V12.6135C13.9261 12.7991 13.8881 12.9829 13.8137 13.153C13.7393 13.3232 13.6302 13.4759 13.4934 13.6014C13.3566 13.7269 13.1951 13.8225 13.0192 13.8819C12.8433 13.9414 12.657 13.9635 12.472 13.9468C10.4206 13.7239 8.45004 13.0229 6.7187 11.9001C5.10792 10.8766 3.74226 9.51093 2.7187 7.90015C1.59202 6.16095 0.890866 4.18081 0.672037 2.12015C0.655377 1.93579 0.677287 1.74999 0.736371 1.57456C0.795454 1.39914 0.890418 1.23794 1.01521 1.10123C1.14001 0.964515 1.29191 0.855286 1.46123 0.780494C1.63056 0.705702 1.8136 0.666987 1.9987 0.666813H3.9987C4.32224 0.663628 4.6359 0.778198 4.88121 0.989168C5.12652 1.20014 5.28676 1.49311 5.33204 1.81348C5.41645 2.45352 5.573 3.08196 5.7987 3.68681C5.8884 3.92543 5.90781 4.18476 5.85464 4.43407C5.80147 4.68338 5.67795 4.91222 5.4987 5.09348L4.65204 5.94015C5.60107 7.60918 6.98301 8.99111 8.65204 9.94015L9.4987 9.09348C9.67996 8.91424 9.90881 8.79071 10.1581 8.73754C10.4074 8.68437 10.6668 8.70378 10.9054 8.79348C11.5102 9.01918 12.1387 9.17573 12.7787 9.26015C13.1025 9.30583 13.3983 9.46895 13.6097 9.71848C13.8211 9.968 13.9335 10.2865 13.9254 10.6135Z"
-                                        stroke="#1D2630" stroke-width="1.33333" stroke-linecap="round"
-                                        stroke-linejoin="round" />
-                                </svg>
-
-                                Request Callback
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Services -->
-                    <div class="card border-0">
-                        <div class="card-body p-4">
-                            <h6 class="font18px fw-bold text-dark mb-3">Services Offered</h6>
-                            <div class="d-flex flex-wrap gap-2">
-                                <span class="service-badge">General Check-up</span>
-                                <span class="service-badge">Fever Treatment</span>
-                                <span class="service-badge">Diabetes Care</span>
-                                <span class="service-badge">Blood Pressure</span>
-                                <span class="service-badge">Health Screenings</span>
-                                <span class="service-badge">Vaccinations</span>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
             </div>
+         </div>
 
-        </div>
-    </section>
+      </div>
+   </section>
+
     <!-- ===================================================================================
                                  Profile Area End
    =====================================================================================-->
@@ -1509,7 +1439,7 @@
     <!-- ===================================================================================
                                  Contact Area Start
    =====================================================================================-->
-<<<<<<< HEAD
+
    <div class="top-title-wrap my-4" id="contact">
       <span class="line left"></span>
       <span class="top-title" id="topTitle">
@@ -1524,198 +1454,143 @@
          <p class="font18px"> Have questions? We're here to help. Reach out to our support team anytime</p>
       </div>
 
-      <!-- Contact Form -->
-      <div class="row g-5">
-         <div class="col-md-6">
+    <!-- Contact Form -->
+    <div class="row g-5">
+        <div class="col-md-6">
             <div class="contact-card card border-0 py-4 px-3 h-100">
-               <div class="card-body">
-                  <h5 class="mb-4 font20 fw-bold text-dark">Send us a Message</h5>
-                  <form action="{{ route('contact.send') }}" method="POST" class="contact-form">
-                    @csrf
-                     <div class="row gx-3">
+                <div class="card-body">
+                    <h5 class="mb-4 font20 fw-bold text-dark">Send us a Message</h5>
+                    <form action="{{ route('contact.send') }}" method="POST" class="contact-form">
+                        @csrf
+                        <div class="row gx-3">
                         <div class="col-md-6 mb-3">
-                           <label class="font14 text-dark fw-medium mb-2">Your Name</label>
-                           <input type="text" class="form-control" name="name" value="{{ old('name') }}">
+                            <label class="font14 text-dark fw-medium mb-2">Your Name</label>
+                            <input type="text" class="form-control" name="name" value="{{ old('name') }}">
                         </div>
                         <div class="col-md-6 mb-3">
-                           <label class="font14 text-dark fw-medium mb-2">Email Address</label>
-                           <input type="email" name="email" value="{{ old('email') }}" class="form-control">
+                            <label class="font14 text-dark fw-medium mb-2">Email Address</label>
+                            <input type="email" name="email" value="{{ old('email') }}" class="form-control">
                         </div>
-                     </div>
-                     <div class="mb-3">
+                        </div>
+                        <div class="mb-3">
                         <label class="font14 text-dark fw-medium mb-2">Phone Number</label>
                         <input type="text" name="phone" value="{{ old('phone') }}" class="form-control">
-                     </div>
-                     <div class="mb-3">
+                        </div>
+                        <div class="mb-3">
                         <label class="font14 text-dark fw-medium mb-2">Your Message</label>
                         <textarea class="form-control" rows="4" name="message">{{ old('message') }}</textarea>
-                     </div>
-                     <button class="custom_btn justify-content-center border-0 w-100">
+                        </div>
+                        <button class="custom_btn justify-content-center border-0 w-100">
                         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M9.69067 14.4572C9.716 14.5203 9.76003 14.5742 9.81685 14.6116C9.87368 14.6489 9.94057 14.668 10.0086 14.6663C10.0766 14.6646 10.1424 14.6421 10.1972 14.6018C10.2521 14.5616 10.2933 14.5055 10.3153 14.4412L14.6487 1.77454C14.67 1.71547 14.6741 1.65154 14.6604 1.59024C14.6467 1.52894 14.6159 1.4728 14.5715 1.42839C14.5271 1.38398 14.4709 1.35314 14.4096 1.33947C14.3483 1.3258 14.2844 1.32987 14.2253 1.35121L1.55867 5.68454C1.49433 5.7066 1.43829 5.74782 1.39805 5.80266C1.35781 5.85749 1.33532 5.92332 1.33357 5.99131C1.33183 6.05931 1.35093 6.1262 1.38831 6.18303C1.42568 6.23985 1.47955 6.28388 1.54267 6.30921L6.82934 8.42921C6.99646 8.49612 7.1483 8.59618 7.27571 8.72336C7.40312 8.85054 7.50346 9.0022 7.57067 9.16921L9.69067 14.4572Z" stroke="white" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round" />
                         <path d="M14.5693 1.43115L7.276 8.72382" stroke="white" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round" />
                         </svg> Send Message
-                     </button>
-                  </form>
-               </div>
-=======
-    <div class="top-title-wrap my-4" id="contact">
-        <span class="line left"></span>
-        <span class="top-title" id="topTitle">
-            Contact Us
-        </span>
-        <span class="line right"></span>
-    </div>
-    <section class="contact-section section-padding">
-        <div class="container">
-            <div class="section-title text-center mb-5">
-                <h2 class="heading2 mb-2">Contact Us</h2>
-                <p class="font18px"> Have questions? We're here to help. Reach out to our support team anytime</p>
->>>>>>> main
+                        </button>
+                    </form>
+                </div>
             </div>
+        </div>
 
-            <!-- Contact Form -->
-            <div class="row g-5">
-                <div class="col-md-6">
-                    <div class="contact-card card border-0 py-4 px-3 h-100">
-                        <div class="card-body">
-                            <h5 class="mb-4 font20 fw-bold text-dark">Send us a Message</h5>
-                            <form class="contact-form">
-                                <div class="row gx-3">
-                                    <div class="col-md-6 mb-3">
-                                        <label class="font14 text-dark fw-medium mb-2">Your Name</label>
-                                        <input type="text" class="form-control">
-                                    </div>
-                                    <div class="col-md-6 mb-3">
-                                        <label class="font14 text-dark fw-medium mb-2">Email Address</label>
-                                        <input type="email" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="mb-3">
-                                    <label class="font14 text-dark fw-medium mb-2">Phone Number</label>
-                                    <input type="text" class="form-control">
-                                </div>
-                                <div class="mb-3">
-                                    <label class="font14 text-dark fw-medium mb-2">Your Message</label>
-                                    <textarea class="form-control" rows="4"></textarea>
-                                </div>
-                                <button class="custom_btn justify-content-center border-0 w-100">
-                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M9.69067 14.4572C9.716 14.5203 9.76003 14.5742 9.81685 14.6116C9.87368 14.6489 9.94057 14.668 10.0086 14.6663C10.0766 14.6646 10.1424 14.6421 10.1972 14.6018C10.2521 14.5616 10.2933 14.5055 10.3153 14.4412L14.6487 1.77454C14.67 1.71547 14.6741 1.65154 14.6604 1.59024C14.6467 1.52894 14.6159 1.4728 14.5715 1.42839C14.5271 1.38398 14.4709 1.35314 14.4096 1.33947C14.3483 1.3258 14.2844 1.32987 14.2253 1.35121L1.55867 5.68454C1.49433 5.7066 1.43829 5.74782 1.39805 5.80266C1.35781 5.85749 1.33532 5.92332 1.33357 5.99131C1.33183 6.05931 1.35093 6.1262 1.38831 6.18303C1.42568 6.23985 1.47955 6.28388 1.54267 6.30921L6.82934 8.42921C6.99646 8.49612 7.1483 8.59618 7.27571 8.72336C7.40312 8.85054 7.50346 9.0022 7.57067 9.16921L9.69067 14.4572Z"
-                                            stroke="white" stroke-width="1.33333" stroke-linecap="round"
-                                            stroke-linejoin="round" />
-                                        <path d="M14.5693 1.43115L7.276 8.72382" stroke="white"
-                                            stroke-width="1.33333" stroke-linecap="round"
-                                            stroke-linejoin="round" />
-                                    </svg> Send Message
-                                </button>
-                            </form>
+        <!-- Contact Info -->
+        <div class="col-md-6">
+            <div class="contact-info d-flex flex-column gap-3">
+                <div class="card border-0 ">
+                    <div class="card-body p-3">
+                        <div class="info-box d-flex align-items-center gap-3">
+                            <img src="assets/images/contact-icons/contact-icon1.svg" alt="">
+                            <div>
+                                <p class="font14">Call Us</p>
+                                <p class="font16_bold">1800-123-4567</p>
+                                <p class="font12">Toll-free, 24/7 support</p>
+                            </div>
                         </div>
                     </div>
                 </div>
-
-                <!-- Contact Info -->
-                <div class="col-md-6">
-                    <div class="contact-info d-flex flex-column gap-3">
-                        <div class="card border-0 ">
-                            <div class="card-body p-3">
-                                <div class="info-box d-flex align-items-center gap-3">
-                                    <img src="assets/images/contact-icons/contact-icon1.svg" alt="">
-                                    <div>
-                                        <p class="font14">Call Us</p>
-                                        <p class="font16_bold">1800-123-4567</p>
-                                        <p class="font12">Toll-free, 24/7 support</p>
-                                    </div>
-                                </div>
+                <div class="card border-0">
+                    <div class="card-body p-3">
+                        <div class="info-box d-flex align-items-center gap-3">
+                            <img src="assets/images/contact-icons/contact-icon2.svg" alt="">
+                            <div>
+                                <p class="font14">Live Chat</p>
+                                <p class="font16_bold">Start Chat</p>
+                                <p class="font12">Instant response</p>
                             </div>
                         </div>
-                        <div class="card border-0">
-                            <div class="card-body p-3">
-                                <div class="info-box d-flex align-items-center gap-3">
-                                    <img src="assets/images/contact-icons/contact-icon2.svg" alt="">
-                                    <div>
-                                        <p class="font14">Live Chat</p>
-                                        <p class="font16_bold">Start Chat</p>
-                                        <p class="font12">Instant response</p>
-                                    </div>
-                                </div>
+                    </div>
+                </div>
+                <div class="card border-0">
+                    <div class="card-body p-3">
+                        <div class="info-box d-flex align-items-center gap-3">
+                            <img src="assets/images/contact-icons/contact-icon3.svg" alt="">
+                            <div>
+                                <p class="font14">Email Us</p>
+                                <p class="font16_bold">support@medicare.in</p>
+                                <p class="font12">Response within 2 hours</p>
                             </div>
                         </div>
-                        <div class="card border-0">
-                            <div class="card-body p-3">
-                                <div class="info-box d-flex align-items-center gap-3">
-                                    <img src="assets/images/contact-icons/contact-icon3.svg" alt="">
-                                    <div>
-                                        <p class="font14">Email Us</p>
-                                        <p class="font16_bold">support@medicare.in</p>
-                                        <p class="font12">Response within 2 hours</p>
-                                    </div>
-                                </div>
-                            </div>
+                    </div>
+                </div>
+                <div class="card primary-bg-light border-0 mt-2">
+                    <div class="card-body p-4">
+                        <h6 class="font16_bold fw-bold text-dark mb-3">Head Office</h6>
+                        <div class="d-flex gap-2">
+                            <span>
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M16.6666 8.33317C16.6666 12.494 12.0508 16.8273 10.5008 18.1657C10.3564 18.2742 10.1806 18.333 9.99998 18.333C9.81931 18.333 9.64354 18.2742 9.49915 18.1657C7.94915 16.8273 3.33331 12.494 3.33331 8.33317C3.33331 6.56506 4.03569 4.86937 5.28593 3.61913C6.53618 2.36888 8.23187 1.6665 9.99998 1.6665C11.7681 1.6665 13.4638 2.36888 14.714 3.61913C15.9643 4.86937 16.6666 6.56506 16.6666 8.33317Z"
+                                        stroke="#0DA2E7" stroke-width="1.66667" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <path
+                                        d="M10 10.8335C11.3807 10.8335 12.5 9.71421 12.5 8.3335C12.5 6.95278 11.3807 5.8335 10 5.8335C8.61929 5.8335 7.5 6.95278 7.5 8.3335C7.5 9.71421 8.61929 10.8335 10 10.8335Z"
+                                        stroke="#0DA2E7" stroke-width="1.66667" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                </svg>
+                            </span>
+                            <p class="font16">
+                                MediCare Healthcare Pvt. Ltd.
+                                <br>
+                                123, Tech Park, HSR Layout,
+                                <br>
+                                Bangalore, Karnataka - 560102
+                            </p>
                         </div>
-                        <div class="card primary-bg-light border-0 mt-2">
-                            <div class="card-body p-4">
-                                <h6 class="font16_bold fw-bold text-dark mb-3">Head Office</h6>
-                                <div class="d-flex gap-2">
-                                    <span>
-                                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M16.6666 8.33317C16.6666 12.494 12.0508 16.8273 10.5008 18.1657C10.3564 18.2742 10.1806 18.333 9.99998 18.333C9.81931 18.333 9.64354 18.2742 9.49915 18.1657C7.94915 16.8273 3.33331 12.494 3.33331 8.33317C3.33331 6.56506 4.03569 4.86937 5.28593 3.61913C6.53618 2.36888 8.23187 1.6665 9.99998 1.6665C11.7681 1.6665 13.4638 2.36888 14.714 3.61913C15.9643 4.86937 16.6666 6.56506 16.6666 8.33317Z"
-                                                stroke="#0DA2E7" stroke-width="1.66667" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                            <path
-                                                d="M10 10.8335C11.3807 10.8335 12.5 9.71421 12.5 8.3335C12.5 6.95278 11.3807 5.8335 10 5.8335C8.61929 5.8335 7.5 6.95278 7.5 8.3335C7.5 9.71421 8.61929 10.8335 10 10.8335Z"
-                                                stroke="#0DA2E7" stroke-width="1.66667" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                        </svg>
-                                    </span>
-                                    <p class="font16">
-                                        MediCare Healthcare Pvt. Ltd.
-                                        <br>
-                                        123, Tech Park, HSR Layout,
-                                        <br>
-                                        Bangalore, Karnataka - 560102
-                                    </p>
-                                </div>
-                                <div class="d-flex gap-2 mt-2">
-                                    <span>
-                                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M10 18.3332C14.6024 18.3332 18.3334 14.6022 18.3334 9.99984C18.3334 5.39746 14.6024 1.6665 10 1.6665C5.39765 1.6665 1.66669 5.39746 1.66669 9.99984C1.66669 14.6022 5.39765 18.3332 10 18.3332Z"
-                                                stroke="#0DA2E7" stroke-width="1.66667" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                            <path d="M10 5V10L13.3333 11.6667" stroke="#0DA2E7"
-                                                stroke-width="1.66667" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                        </svg>
-                                    </span>
-                                    <p class="font16">
-                                        Mon - Sat: 9:00 AM - 8:00 PM
-                                    </p>
-                                </div>
-                            </div>
+                        <div class="d-flex gap-2 mt-2">
+                            <span>
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M10 18.3332C14.6024 18.3332 18.3334 14.6022 18.3334 9.99984C18.3334 5.39746 14.6024 1.6665 10 1.6665C5.39765 1.6665 1.66669 5.39746 1.66669 9.99984C1.66669 14.6022 5.39765 18.3332 10 18.3332Z"
+                                        stroke="#0DA2E7" stroke-width="1.66667" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <path d="M10 5V10L13.3333 11.6667" stroke="#0DA2E7"
+                                        stroke-width="1.66667" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                </svg>
+                            </span>
+                            <p class="font16">
+                                Mon - Sat: 9:00 AM - 8:00 PM
+                            </p>
                         </div>
-                        <div class="card border-dashed mt-2">
-                            <div class="card-body p-3">
-                                <div class="info-box d-flex align-items-center gap-3">
-                                    <img src="assets/images/contact-icons/contact-icon4.svg" alt="">
-                                    <div>
-                                        <p class="font16_bold text-dark fw-bold">Partner with Us</p>
-                                        <p class="font14 mb-3">Are you a clinic or hospital? Join our network of
-                                            10,000+ healthcare partners.</p>
-                                        <a href="#" class="btn btn-outline-primary">Become a Partner</a>
-                                    </div>
-                                </div>
+                    </div>
+                </div>
+                <div class="card border-dashed mt-2">
+                    <div class="card-body p-3">
+                        <div class="info-box d-flex align-items-center gap-3">
+                            <img src="assets/images/contact-icons/contact-icon4.svg" alt="">
+                            <div>
+                                <p class="font16_bold text-dark fw-bold">Partner with Us</p>
+                                <p class="font14 mb-3">Are you a clinic or hospital? Join our network of
+                                    10,000+ healthcare partners.</p>
+                                <a href="#" class="btn btn-outline-primary">Become a Partner</a>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
+
     </section>
     <!-- ===================================================================================
                                  Contact Area End
@@ -1929,6 +1804,35 @@
         @endif
 
     </script>
+
+
+    {{-- ✅ Multi Language Support --}}
+    <script>
+        function translatePage(langCode) {
+            if (langCode === 'en') {
+                // English = reset/restore original
+                document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/';
+                document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=.' + location.hostname;
+                location.reload();
+                return;
+            }
+
+            document.cookie = `googtrans=/en/${langCode};path=/`;
+            document.cookie = `googtrans=/en/${langCode};path=/;domain=.${location.hostname}`;
+
+            const tryTranslate = setInterval(() => {
+                const gtSelect = document.querySelector('.goog-te-combo');
+                if (gtSelect) {
+                    gtSelect.value = langCode;
+                    gtSelect.dispatchEvent(new Event('change'));
+                    clearInterval(tryTranslate);
+                }
+            }, 100);
+        }
+    </script>
+
+
+
 </body>
 
 </html>

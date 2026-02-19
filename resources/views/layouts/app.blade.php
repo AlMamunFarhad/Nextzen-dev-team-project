@@ -20,6 +20,17 @@
     <!-- Icons. Uncomment required icon fonts -->
     <link rel="stylesheet" href="{{ asset('admin/assets/vendor/fonts/boxicons.css') }}" />
 
+     {{-- ✅ Multi Language Support --}}
+    <script>
+      function googleTranslateElementInit() {
+        new google.translate.TranslateElement({
+          pageLanguage: 'en',
+          autoDisplay: false,
+        }, 'google_translate_element');
+      }
+    </script>
+    <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
 
 
     <!-- Core CSS -->
@@ -57,6 +68,10 @@
 
 <body class="font-sans antialiased">
     <div class="min-h-screen bg-gray-100">
+
+        {{-- ✅ Multi Language Support --}}
+        <div id="google_translate_element" style="display:none"></div>
+
         @include('layouts.navigation')
 
         <!-- Page Heading -->
@@ -196,6 +211,35 @@
         }
     </script>
 >>>>>>> main
+
+
+   {{-- ✅ Multi Language Support --}}
+
+    <script>
+        function translatePage(langCode) {
+            if (langCode === 'en') {
+                // English = reset/restore original
+                document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/';
+                document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=.' + location.hostname;
+                location.reload();
+                return;
+            }
+
+            document.cookie = `googtrans=/en/${langCode};path=/`;
+            document.cookie = `googtrans=/en/${langCode};path=/;domain=.${location.hostname}`;
+
+            const tryTranslate = setInterval(() => {
+                const gtSelect = document.querySelector('.goog-te-combo');
+                if (gtSelect) {
+                    gtSelect.value = langCode;
+                    gtSelect.dispatchEvent(new Event('change'));
+                    clearInterval(tryTranslate);
+                }
+            }, 100);
+        }
+    </script>
+
+
 </body>
 
 </html>

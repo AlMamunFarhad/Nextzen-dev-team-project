@@ -1,7 +1,7 @@
-/* 
+/*
   Template Name: MediCare
   Template URI:
-  Author Name: 
+  Author Name:
   Author URI: https://
   Version: 1.0.0
   Description: This is Figma to HTML
@@ -430,7 +430,7 @@ img{
   margin: auto;
 }
 .line {
-  flex: 1;               
+  flex: 1;
   height: 1px;
 }
 .line.left {
@@ -449,7 +449,7 @@ img{
   border-radius: 20px;
   letter-spacing: 0.5px;
   text-transform: uppercase;
-  white-space: nowrap; 
+  white-space: nowrap;
 }
 
 .section-title{
@@ -642,7 +642,7 @@ img{
 .avatar {
   width: 40px;
   height: 40px;
-  min-width: 40px; 
+  min-width: 40px;
   border-radius: 50%;
   background: rgba(13, 162, 231, 0.1);
   display: flex;
@@ -653,7 +653,7 @@ img{
   line-height: 150%;
   text-align: center;
   color: #0da2e7;
-  flex-shrink: 0; 
+  flex-shrink: 0;
 }
 .stars {
   color: #22c55e;
@@ -739,7 +739,7 @@ img{
   left: 40px;
   height: 2px;
   width: 0%;
-  background: #1da1f2; 
+  background: #1da1f2;
   z-index: 2;
   transition: width 0.4s ease;
 }
@@ -1144,3 +1144,51 @@ img{
 }
 
 
+
+
+
+
+
+    /* ✅ Google এর default widget bar লুকাও */
+/* এটা না করলে page-এর top-এ একটি ugly bar দেখাবে */
+
+.goog-te-banner-frame,
+.skiptranslate {
+  display: none !important;
+}
+
+/* Page top shift ঠিক করো */
+body {
+  top: 0 !important;
+}
+
+
+/* Google এর hidden select widget লুকাও */
+.goog-te-gadget {
+  display: none !important;
+}
+
+#langSelect {
+  appearance: none;
+  -webkit-appearance: none;
+  background: #0DA2E7 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23ffffff' d='M6 8L1 3h10z'/%3E%3C/svg%3E") no-repeat right 10px center;
+  color: #fff;
+  padding: 8px 32px 8px 14px;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  cursor: pointer;
+  outline: none;
+  border: none;
+  transition: opacity 0.2s;
+  min-width: 110px;
+}
+
+#langSelect:hover {
+  opacity: 0.9;
+}
+
+#langSelect option {
+  background: #0DA2E7;
+  color: #fff;
+  border: none;
+}
